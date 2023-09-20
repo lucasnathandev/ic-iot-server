@@ -1,4 +1,8 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets';
+import {
+  WebSocketGateway,
+  SubscribeMessage,
+  MessageBody,
+} from '@nestjs/websockets';
 import { IotBoxService } from './iot-box.service';
 import { CreateIotBoxDto } from './dto/create-iot-box.dto';
 import { UpdateIotBoxDto } from './dto/update-iot-box.dto';
