@@ -1,5 +1,5 @@
 # IC Monitoramento IoT
-Projeto de Iniciação Científica na área de Tecnologia da Informação, orientado pelo prof. me. Márcio Rodrigues Sabino.
+Projeto de Iniciação Científica na área de Tecnologia da Informação, orientado pelo prof. me. Márcio Rodrigues Sabino do curso de Análise e Desenvolvimento de Sistemas na FATEC de Mogi Mirim, SP. 
 ##
 Este projeto visa criar um sistema de monitoramento de dispositivos IoT com diversos tipos de sensores pela web.
 --

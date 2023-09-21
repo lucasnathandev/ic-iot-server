@@ -11,17 +11,17 @@ import { UpdateIotBoxDto } from './dto/update-iot-box.dto';
 export class IotBoxGateway {
   constructor(private readonly iotBoxService: IotBoxService) {}
 
-  @SubscribeMessage('createIotBox')
+  @SubscribeMessage('registerIotBox')
   create(@MessageBody() createIotBoxDto: CreateIotBoxDto) {
     return this.iotBoxService.create(createIotBoxDto);
   }
 
-  @SubscribeMessage('findAllIotBox')
+  @SubscribeMessage('saveIotBoxData')
   findAll() {
     return this.iotBoxService.findAll();
   }
 
-  @SubscribeMessage('findOneIotBox')
+  @SubscribeMessage('updateIotBoxSensorData')
   findOne(@MessageBody() id: number) {
     return this.iotBoxService.findOne(id);
   }
