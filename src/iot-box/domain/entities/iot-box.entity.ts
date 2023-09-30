@@ -1,6 +1,5 @@
 import { Entity } from '@/shared/domain/entities/entity';
 import { ISensorFields } from './interfaces/sensor-fields.interface';
-import { IGPS } from './interfaces/gps.interface';
 
 export interface IotBoxProps {
   id: string;
@@ -8,7 +7,6 @@ export interface IotBoxProps {
   date: Date;
   hourTime: Date;
   battery: number;
-  gps: IGPS;
   sensors: Partial<ISensorFields>;
 }
 
