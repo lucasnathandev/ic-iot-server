@@ -1,19 +1,16 @@
 import { Entity } from 'src/shared/domain/entities/entity';
-import { ISensorFields } from './interfaces/sensor-fields.interface';
 
-export interface IotBoxProps {
-  id: string;
-  customerId?: string;
-  date: Date;
-  hourTime: string;
-  battery: number;
-  sensors: ISensorFields;
-}
+import { IotBoxProps } from './interfaces/iot-box-props.interface';
+import { IotBoxMethods } from './interfaces/iot-box-methods.interface';
+import { IGPS } from './interfaces/gps.interface';
 
-export class IotBoxEntity extends Entity<IotBoxProps> {
+export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   props: IotBoxProps;
   constructor(props: IotBoxProps) {
     super(props);
     this.props = props;
+  }
+  updateGPSLocation(coordinates: IGPS): void {
+    this.props.sensors.gps = coordinates;
   }
 }

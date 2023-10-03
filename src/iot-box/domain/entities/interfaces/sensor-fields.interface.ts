@@ -3,7 +3,7 @@ import { IGPS } from './gps.interface';
 export interface ISensorFields {
   heat?: number;
   acceleration?: number;
-  GPS: IGPS;
+  gps: IGPS;
   umity?: number;
   ultrasonic?: number;
   infraRed?: number;
