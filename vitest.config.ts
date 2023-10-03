@@ -4,7 +4,11 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     globals: true,
+    include: ['src/**/*int-spec.ts', 'src/**/*spec.ts'],
     root: './',
+    coverage: {
+      provider: 'v8',
+    },
   },
   plugins: [
     // This is required to build the test files with SWC

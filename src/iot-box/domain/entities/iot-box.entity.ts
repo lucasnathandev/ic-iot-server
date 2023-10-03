@@ -1,18 +1,19 @@
-import { Entity } from '@/shared/domain/entities/entity';
+import { Entity } from 'src/shared/domain/entities/entity';
 import { ISensorFields } from './interfaces/sensor-fields.interface';
 
 export interface IotBoxProps {
   id: string;
   customerId?: string;
   date: Date;
-  hourTime: Date;
+  hourTime: string;
   battery: number;
-  sensors: Partial<ISensorFields>;
+  sensors: ISensorFields;
 }
 
-export class IotBox extends Entity<IotBoxProps> {
-  public props: IotBoxProps;
+export class IotBoxEntity extends Entity<IotBoxProps> {
+  props: IotBoxProps;
   constructor(props: IotBoxProps) {
     super(props);
+    this.props = props;
   }
 }
