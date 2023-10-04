@@ -7,6 +7,6 @@ export abstract class Entity<Props> {
       Array.from({ length: 32 })
         .map(() => String.fromCharCode(Math.floor(Math.random() * 36 + 65)))
         .join();
-    this.props = props;
+    this.props = { id: this.id, ...props };
   }
 }

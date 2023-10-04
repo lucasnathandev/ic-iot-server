@@ -6,23 +6,48 @@ describe('IotBoxEntity unit tests', () => {
 
   it('should initialize correctly', () => {
     sut = new IotBoxEntity({
-      id: 'aiosjdioa12',
       battery: 0.5,
       date: new Date(),
       hourTime: '14:02',
       sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
     });
 
-    expect(sut.props).toHaveProperty('id');
+    expect(sut).toHaveProperty('id');
     expect(sut.props).toHaveProperty('battery');
     expect(sut.props).toHaveProperty('date');
     expect(sut.props).toHaveProperty('hourTime');
     expect(sut.props).toHaveProperty('sensors');
   });
 
+  it('should run getters and setters correctly', () => {
+    sut = new IotBoxEntity(
+      {
+        battery: 0.7,
+        date: new Date(),
+        hourTime: '15:00',
+        sensors: { gps: { latitude: 20.03, longitude: 34.045 } },
+        customerId: 'fakecustomerid',
+      },
+      'fakeuuid',
+    );
+
+    sut.battery = 1;
+    sut.date = new Date('1990-10-10');
+    sut.hourTime = '16:00';
+    sut.sensors = { gps: { latitude: 10.02, longitude: 20.34 } };
+
+    expect(sut.id).toBe('fakeuuid');
+    expect(sut.battery).toBe(1);
+    expect(sut.date).toStrictEqual(new Date('1990-10-10'));
+    expect(sut.hourTime).toBe('16:00');
+    expect(sut.sensors).toStrictEqual({
+      gps: { latitude: 10.02, longitude: 20.34 },
+    });
+    expect(sut.customerId).toBe('fakecustomerid');
+  });
+
   it('should run methods correctly', () => {
     sut = new IotBoxEntity({
-      id: 'aiosjdioa12',
       battery: 0.5,
       date: new Date(),
       hourTime: '14:02',
