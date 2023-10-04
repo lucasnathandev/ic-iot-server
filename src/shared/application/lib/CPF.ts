@@ -16,13 +16,7 @@ export class CPF {
     ['PR', 'SC'],
   ];
   constructor(cpf?: string) {
-    const isInvalidCpfPattern =
-      !!cpf && this.#invalidCpfNumbers.includes(CPF.unMaskCpf(cpf));
-
-    this.cpf =
-      cpf && !isInvalidCpfPattern && this.validateCpf(cpf)
-        ? CPF.maskCpf(cpf)
-        : '';
+    this.cpf = cpf && this.validateCpf(cpf) ? CPF.maskCpf(cpf) : '';
   }
 
   public generateRandomCpf(UF?: string): string {
@@ -39,8 +33,12 @@ export class CPF {
   }
 
   public validateCpf(cpf?: string) {
-    const unMaskedCpf = CPF.unMaskCpf(cpf || this.cpf);
-    if (unMaskedCpf.length < 9) return false;
+    const unMaskedCpf: string = CPF.unMaskCpf(cpf || this.cpf);
+
+    if (!unMaskedCpf.length) return false;
+    const isInvalidCpfPattern = this.#invalidCpfNumbers.includes(unMaskedCpf);
+
+    if (isInvalidCpfPattern || unMaskedCpf.length < 11) return false;
     const generatedCpf: string = this.processCpfDigits(
       unMaskedCpf.substring(0, 9),
     );
@@ -56,12 +54,11 @@ export class CPF {
   }
 
   public static unMaskCpf(cpf: string): string {
-    if (cpf.length !== 14) return '';
     return cpf.replace(/\D/g, '');
   }
 
   private processCpfDigits(cpf: string): string {
-    const unMaskedCpf = CPF.unMaskCpf(cpf);
+    const unMaskedCpf: string = CPF.unMaskCpf(cpf);
 
     if (unMaskedCpf.length >= 11) return unMaskedCpf;
     let i = unMaskedCpf.length + 1;
