@@ -7,8 +7,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UpdateCustomerDto } from './infraestructure/dto/update-customer.dto';
-import { CreateCustomerDto } from './infraestructure/dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CreateCustomerDto } from './dto/create-customer.dto';
 import { CustomerService } from './customer.service';
 
 @Controller('customer')

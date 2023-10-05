@@ -35,4 +35,8 @@ export class CustomerEntity
   get cpf() {
     return this.props.cpf;
   }
+
+  get boxes() {
+    return this.props.boxes;
+  }
 }
