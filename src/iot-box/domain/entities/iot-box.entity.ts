@@ -50,6 +50,7 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   }
 
   public updateGPSLocation(coordinates: IGPS): void {
-    this.props.sensors.gps = coordinates;
+    this.sensors.gps = coordinates;
+    this.updatedAt = new Date();
   }
 }

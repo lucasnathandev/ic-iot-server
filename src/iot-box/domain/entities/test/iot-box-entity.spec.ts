@@ -1,5 +1,6 @@
 import { IGPS } from '../interfaces/gps.interface';
 import { IotBoxEntity } from '../iot-box.entity';
+import { vitest } from 'vitest';
 
 describe('IotBoxEntity unit tests', () => {
   let sut: IotBoxEntity;
@@ -44,6 +45,7 @@ describe('IotBoxEntity unit tests', () => {
       gps: { latitude: 10.02, longitude: 20.34 },
     });
     expect(sut.customerId).toBe('fakecustomerid');
+    expect(sut.updatedAt).toBeDefined();
   });
 
   it('should run methods correctly', () => {
@@ -57,9 +59,11 @@ describe('IotBoxEntity unit tests', () => {
       latitude: 25.0205,
       longitude: 30.3456,
     };
+    const updatedAt = new Date(sut.updatedAt.toString());
 
     sut.updateGPSLocation(coordinates);
 
     expect(sut.props.sensors.gps).toStrictEqual(coordinates);
+    expect(sut.updatedAt.getTime()).toBeGreaterThan(updatedAt.getTime());
   });
 });
