@@ -1,6 +1,5 @@
 import { IGPS } from '../interfaces/gps.interface';
 import { IotBoxEntity } from '../iot-box.entity';
-import { vitest } from 'vitest';
 
 describe('IotBoxEntity unit tests', () => {
   let sut: IotBoxEntity;
@@ -11,6 +10,7 @@ describe('IotBoxEntity unit tests', () => {
       date: new Date(),
       hourTime: '14:02',
       sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
+      customerId: 'fakecustomerid',
     });
 
     expect(sut).toHaveProperty('id');
@@ -18,6 +18,7 @@ describe('IotBoxEntity unit tests', () => {
     expect(sut.props).toHaveProperty('date');
     expect(sut.props).toHaveProperty('hourTime');
     expect(sut.props).toHaveProperty('sensors');
+    expect(sut.props).toHaveProperty('customerId');
   });
 
   it('should run getters and setters correctly', () => {
@@ -54,6 +55,7 @@ describe('IotBoxEntity unit tests', () => {
       date: new Date(),
       hourTime: '14:02',
       sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
+      customerId: 'fakecustomerid',
     });
     const coordinates: IGPS = {
       latitude: 25.0205,
@@ -62,6 +64,8 @@ describe('IotBoxEntity unit tests', () => {
     const updatedAt = new Date(sut.updatedAt.toString());
 
     sut.updateGPSLocation(coordinates);
+
+    sut.updateAllSensors({ acceleration: 10 });
 
     expect(sut.props.sensors.gps).toStrictEqual(coordinates);
     expect(sut.updatedAt.getTime()).toBeGreaterThan(updatedAt.getTime());

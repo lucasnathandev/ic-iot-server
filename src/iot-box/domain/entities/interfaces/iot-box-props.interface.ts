@@ -5,5 +5,5 @@ export interface IotBoxProps {
   hourTime: string;
   battery: number;
   sensors: ISensorFields;
-  customerId?: string;
+  customerId: string;
 }
