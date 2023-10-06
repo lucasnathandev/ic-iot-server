@@ -1,9 +1,9 @@
-import { IotBoxModule } from '@/iot-box/infraestructure/iot-box.module';
+import { IotBoxModule } from 'src/iot-box/infraestructure/iot-box.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { CustomerModule } from './customer/customer.module';
+import { CustomerModule } from 'src/customer/infraestructure/customer.module';
 
 @Module({
   imports: [IotBoxModule, ConfigModule.forRoot(), CustomerModule],

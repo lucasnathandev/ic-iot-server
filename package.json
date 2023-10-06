@@ -17,7 +17,11 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false",
-    "test:e2e": "vitest run --config ./vitest.config.e2e.ts"
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "test:html": "vitest run --reporter=html --outputFile=vitest/output/html/index.html",
+    "test:json": "vitest run --reporter=json",
+    "test:junit": "vitest run --reporter=junit",
+    "test:ui": "vite preview --outDir vitest/output/html --host"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -43,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "@vitest/coverage-v8": "^0.34.6",
+    "@vitest/ui": "^0.34.6",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
