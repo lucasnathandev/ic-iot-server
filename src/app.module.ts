@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CustomerModule } from 'src/customer/infraestructure/customer.module';
 
 @Module({
-  imports: [IotBoxModule, ConfigModule.forRoot(), CustomerModule],
+  imports: [IotBoxModule, CustomerModule, ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })
