@@ -1,7 +1,7 @@
 import { DateProps } from './interfaces/date-props.interface';
 
 export abstract class Entity<Props> implements DateProps {
-  public props: Props;
+  protected props: Props;
   public readonly id: string;
   constructor(props: Props, id?: string) {
     this.id =
