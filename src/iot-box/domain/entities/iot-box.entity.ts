@@ -6,11 +6,8 @@ import { IGPS } from './interfaces/gps.interface';
 import { ISensorFields } from './interfaces/sensor-fields.interface';
 
 export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
-  public props: IotBoxProps;
-
   constructor(props: IotBoxProps, id?: string) {
     super(props, id);
-    this.props = props;
   }
 
   get customerId() {
