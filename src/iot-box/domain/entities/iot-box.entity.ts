@@ -10,6 +10,14 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     super(props, id);
   }
 
+  get name() {
+    return this.props.name;
+  }
+
+  set name(value: string) {
+    this.props.name = value;
+  }
+
   get customerId() {
     return this.props.customerId;
   }
@@ -20,22 +28,6 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
 
   set battery(value: number) {
     this.props.battery = value;
-  }
-
-  get date() {
-    return this.props.date;
-  }
-
-  set date(value: Date) {
-    this.props.date = value;
-  }
-
-  get hourTime() {
-    return this.props.hourTime;
-  }
-
-  set hourTime(value: string) {
-    this.props.hourTime = value;
   }
 
   get sensors() {
