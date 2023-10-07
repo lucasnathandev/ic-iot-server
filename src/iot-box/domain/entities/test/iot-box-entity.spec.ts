@@ -14,11 +14,11 @@ describe('IotBoxEntity unit tests', () => {
     });
 
     expect(sut).toHaveProperty('id');
-    expect(sut.props).toHaveProperty('battery');
-    expect(sut.props).toHaveProperty('date');
-    expect(sut.props).toHaveProperty('hourTime');
-    expect(sut.props).toHaveProperty('sensors');
-    expect(sut.props).toHaveProperty('customerId');
+    expect(sut).toHaveProperty('battery');
+    expect(sut).toHaveProperty('date');
+    expect(sut).toHaveProperty('hourTime');
+    expect(sut).toHaveProperty('sensors');
+    expect(sut).toHaveProperty('customerId');
   });
 
   it('should run getters and setters correctly', () => {
@@ -67,7 +67,7 @@ describe('IotBoxEntity unit tests', () => {
 
     sut.updateAllSensors({ acceleration: 10 });
 
-    expect(sut.props.sensors.gps).toStrictEqual(coordinates);
+    expect(sut.sensors.gps).toStrictEqual(coordinates);
     expect(sut.updatedAt.getTime()).toBeGreaterThan(updatedAt.getTime());
   });
 });
