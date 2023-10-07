@@ -7,16 +7,14 @@ describe('IotBoxEntity unit tests', () => {
   it('should initialize correctly', () => {
     sut = new IotBoxEntity({
       battery: 0.5,
-      date: new Date(),
-      hourTime: '14:02',
+      name: 'Box test',
       sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
       customerId: 'fakecustomerid',
     });
 
     expect(sut).toHaveProperty('id');
     expect(sut).toHaveProperty('battery');
-    expect(sut).toHaveProperty('date');
-    expect(sut).toHaveProperty('hourTime');
+    expect(sut).toHaveProperty('name');
     expect(sut).toHaveProperty('sensors');
     expect(sut).toHaveProperty('customerId');
   });
@@ -24,9 +22,8 @@ describe('IotBoxEntity unit tests', () => {
   it('should run getters and setters correctly', () => {
     sut = new IotBoxEntity(
       {
+        name: 'Box test',
         battery: 0.7,
-        date: new Date(),
-        hourTime: '15:00',
         sensors: { gps: { latitude: 20.03, longitude: 34.045 } },
         customerId: 'fakecustomerid',
       },
@@ -34,14 +31,13 @@ describe('IotBoxEntity unit tests', () => {
     );
 
     sut.battery = 1;
-    sut.date = new Date('1990-10-10');
-    sut.hourTime = '16:00';
+    sut.name = 'Box1';
     sut.sensors = { gps: { latitude: 10.02, longitude: 20.34 } };
 
     expect(sut.id).toBe('fakeuuid');
     expect(sut.battery).toBe(1);
-    expect(sut.date).toStrictEqual(new Date('1990-10-10'));
-    expect(sut.hourTime).toBe('16:00');
+    expect(sut.name).toBe('Box1');
+
     expect(sut.sensors).toStrictEqual({
       gps: { latitude: 10.02, longitude: 20.34 },
     });
@@ -51,9 +47,8 @@ describe('IotBoxEntity unit tests', () => {
 
   it('should run methods correctly', () => {
     sut = new IotBoxEntity({
+      name: 'Box2',
       battery: 0.5,
-      date: new Date(),
-      hourTime: '14:02',
       sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
       customerId: 'fakecustomerid',
     });
