@@ -12,10 +12,10 @@ describe('CustomerEntity unit tests', () => {
       boxes: [],
     });
 
-    expect(sut.props.name).toBeDefined();
-    expect(sut.props.age).toBeDefined();
-    expect(sut.props.cpf).toBeDefined();
-    expect(sut.props.boxes).toBeDefined();
+    expect(sut.name).toBeDefined();
+    expect(sut.age).toBeDefined();
+    expect(sut.cpf).toBeDefined();
+    expect(sut.boxes).toBeDefined();
   });
 
   it('should run gettes and setters correctly', () => {
