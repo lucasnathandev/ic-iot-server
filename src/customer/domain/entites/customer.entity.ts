@@ -7,7 +7,6 @@ export class CustomerEntity
   extends Entity<CustomerProps>
   implements CustomerMethods
 {
-  public props: CustomerProps;
   constructor(props: CustomerProps, id?: string) {
     super(props, id);
     this.props = props;
