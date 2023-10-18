@@ -1,4 +1,5 @@
 import { IGPS } from '../interfaces/gps.interface';
+import { ISensorFields } from '../interfaces/sensor-fields.interface';
 import { IotBoxEntity } from '../iot-box.entity';
 
 describe('IotBoxEntity unit tests', () => {
@@ -19,10 +20,21 @@ describe('IotBoxEntity unit tests', () => {
 
     sut.updateGPSLocation(coordinates);
 
-    sut.updateAllSensors({ acceleration: 10 });
+    const sensorUpdatedValues: Partial<ISensorFields> = {
+      acceleration: 10,
+    };
+
+    expect(sut.sensors).toStrictEqual({
+      gps: coordinates,
+    });
+
+    sut.updateAllSensors(sensorUpdatedValues);
 
     expect(sut.sensors.gps).toStrictEqual(coordinates);
-    expect(sut.sensors.acceleration).toBe(10);
+    expect(sut.sensors).toStrictEqual({
+      gps: coordinates,
+      ...sensorUpdatedValues,
+    });
     expect(sut.updatedAt.getTime()).toBeGreaterThan(updatedAt.getTime());
   });
 });
