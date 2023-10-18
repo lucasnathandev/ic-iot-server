@@ -34,7 +34,7 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     return this.props.sensors;
   }
 
-  set sensors(value: ISensorFields) {
+  private set sensors(value: ISensorFields) {
     this.props.sensors = value;
   }
 

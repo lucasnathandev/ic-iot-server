@@ -14,6 +14,8 @@ export class CustomerEntity
     this.props.boxes.push(box);
   }
 
+  // Getters and setters
+
   get name() {
     return this.props.name;
   }
