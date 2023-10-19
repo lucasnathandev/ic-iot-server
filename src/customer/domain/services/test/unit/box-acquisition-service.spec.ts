@@ -29,5 +29,9 @@ describe('BoxAcquisitionService unit tests', () => {
 
     expect(box.customerId).toBe('fakeid');
     expect(customer.boxes.includes(box)).toBeTruthy();
+
+    sut.unregisterBoxOwnership(customer, box);
+    expect(box.customerId).toBeNull();
+    expect(customer.boxes.includes(box)).toBeFalsy();
   });
 });

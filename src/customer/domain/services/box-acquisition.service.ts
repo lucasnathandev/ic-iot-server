@@ -9,5 +9,6 @@ export class BoxAcquisitionService {
 
   public unregisterBoxOwnership(customer: CustomerEntity, box: IotBoxEntity) {
     customer.releaseBox(box.id);
+    box.unbindOwnerCustomer();
   }
 }
