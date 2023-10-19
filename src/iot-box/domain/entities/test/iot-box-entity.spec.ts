@@ -42,5 +42,9 @@ describe('IotBoxEntity unit tests', () => {
       ...sensorUpdatedValues,
     });
     expect(sut.updatedAt.getTime()).toBeGreaterThan(updatedAt.getTime());
+
+    sut.unbindOwnerCustomer();
+
+    expect(sut.customerId).toBeNull();
   });
 });

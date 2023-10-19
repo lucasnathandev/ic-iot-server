@@ -10,6 +10,26 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     super(props, id);
   }
 
+  public setBoxOwnerId(id: string) {
+    this.props.customerId = id;
+  }
+
+  public unbindOwnerCustomer(): void {
+    this.props.customerId = null;
+  }
+
+  public updateGPSLocation(coordinates: IGPS): void {
+    this.sensors.gps = coordinates;
+    this.updatedAt = new Date();
+  }
+
+  public updateAllSensors(data: Partial<ISensorFields>) {
+    this.sensors = {
+      ...this.sensors,
+      ...data,
+    };
+  }
+
   get name() {
     return this.props.name;
   }
@@ -36,21 +56,5 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
 
   private set sensors(value: ISensorFields) {
     this.props.sensors = value;
-  }
-
-  public setBoxOwnerId(id: string) {
-    this.props.customerId = id;
-  }
-
-  public updateGPSLocation(coordinates: IGPS): void {
-    this.sensors.gps = coordinates;
-    this.updatedAt = new Date();
-  }
-
-  public updateAllSensors(data: Partial<ISensorFields>) {
-    this.sensors = {
-      ...this.sensors,
-      ...data,
-    };
   }
 }
