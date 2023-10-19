@@ -38,6 +38,10 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     this.props.sensors = value;
   }
 
+  public setBoxOwnerId(id: string) {
+    this.props.customerId = id;
+  }
+
   public updateGPSLocation(coordinates: IGPS): void {
     this.sensors.gps = coordinates;
     this.updatedAt = new Date();

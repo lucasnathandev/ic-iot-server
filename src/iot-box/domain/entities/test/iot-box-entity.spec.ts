@@ -10,8 +10,14 @@ describe('IotBoxEntity unit tests', () => {
       name: 'Box2',
       battery: 0.5,
       sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
-      customerId: 'fakecustomerid',
     });
+
+    expect(sut.customerId).toBeUndefined();
+
+    sut.setBoxOwnerId('fakecustomerid');
+
+    expect(sut.customerId).toBe('fakecustomerid');
+
     const coordinates: IGPS = {
       latitude: 25.0205,
       longitude: 30.3456,
