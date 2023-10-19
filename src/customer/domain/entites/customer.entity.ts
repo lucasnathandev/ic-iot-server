@@ -10,6 +10,9 @@ export class CustomerEntity
   constructor(props: CustomerProps, id?: string) {
     super(props, id);
   }
+  releaseBox(id: string): void {
+    this.props.boxes = this.props.boxes.filter((box) => box.id !== id);
+  }
   acquireBox(box: IotBoxEntity): void {
     this.props.boxes.push(box);
   }
