@@ -8,7 +8,34 @@ import { ISensorFields } from './interfaces/sensor-fields.interface';
 export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   constructor(props: IotBoxProps, id?: string) {
     super(props, id);
-    this.props = props;
+  }
+
+  public setBoxOwnerId(id: string) {
+    this.props.customerId = id;
+  }
+
+  public unbindOwnerCustomer(): void {
+    this.props.customerId = null;
+  }
+
+  public updateGPSLocation(coordinates: IGPS): void {
+    this.sensors.gps = coordinates;
+    this.updatedAt = new Date();
+  }
+
+  public updateAllSensors(data: Partial<ISensorFields>) {
+    this.sensors = {
+      ...this.sensors,
+      ...data,
+    };
+  }
+
+  get name() {
+    return this.props.name;
+  }
+
+  set name(value: string) {
+    this.props.name = value;
   }
 
   get customerId() {
@@ -23,39 +50,11 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     this.props.battery = value;
   }
 
-  get date() {
-    return this.props.date;
-  }
-
-  set date(value: Date) {
-    this.props.date = value;
-  }
-
-  get hourTime() {
-    return this.props.hourTime;
-  }
-
-  set hourTime(value: string) {
-    this.props.hourTime = value;
-  }
-
   get sensors() {
     return this.props.sensors;
   }
 
-  set sensors(value: ISensorFields) {
+  private set sensors(value: ISensorFields) {
     this.props.sensors = value;
-  }
-
-  public updateGPSLocation(coordinates: IGPS): void {
-    this.sensors.gps = coordinates;
-    this.updatedAt = new Date();
-  }
-
-  public updateAllSensors(data: Partial<ISensorFields>) {
-    this.sensors = {
-      ...this.sensors,
-      ...data,
-    };
   }
 }

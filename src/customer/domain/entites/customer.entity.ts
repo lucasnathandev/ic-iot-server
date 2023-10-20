@@ -9,18 +9,22 @@ export class CustomerEntity
 {
   constructor(props: CustomerProps, id?: string) {
     super(props, id);
-    this.props = props;
+  }
+  releaseBox(id: string): void {
+    this.props.boxes = this.props.boxes.filter((box) => box.id !== id);
   }
   acquireBox(box: IotBoxEntity): void {
     this.props.boxes.push(box);
   }
 
-  get name() {
-    return this.props.name;
+  // Getters and setters
+
+  get email() {
+    return this.props.email;
   }
 
-  set name(value: string) {
-    this.props.name = value;
+  get name() {
+    return this.props.name;
   }
 
   get age() {
