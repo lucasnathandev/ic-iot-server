@@ -19,12 +19,12 @@ export class CustomerEntity
 
   // Getters and setters
 
-  get name() {
-    return this.props.name;
+  get email() {
+    return this.props.email;
   }
 
-  set name(value: string) {
-    this.props.name = value;
+  get name() {
+    return this.props.name;
   }
 
   get age() {

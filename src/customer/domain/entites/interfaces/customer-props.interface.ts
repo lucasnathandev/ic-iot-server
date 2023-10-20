@@ -3,6 +3,7 @@ import { IPerson } from 'src/shared/domain/entities/interfaces/person.interface'
 
 export interface CustomerProps extends IPerson {
   name: string;
+  email: string;
   age: number;
   readonly cpf: string;
   boxes: IotBoxEntity[];

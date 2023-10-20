@@ -11,6 +11,7 @@ describe('CustomerEntity unit tests', () => {
       age: 27,
       cpf: new CPF().generateRandomCpf('RJ'),
       boxes: [],
+      email: 'jane@gmail.com',
     });
 
     const box = new IotBoxEntity(
