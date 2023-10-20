@@ -5,6 +5,7 @@ export interface CustomerProps extends IPerson {
   name: string;
   email: string;
   age: number;
+  password?: string;
   readonly cpf: string;
   boxes: IotBoxEntity[];
 }
