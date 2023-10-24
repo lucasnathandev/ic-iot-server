@@ -4,20 +4,30 @@ import { UpdateAdminDto } from '../dto/update-admin.dto';
 
 export class AdminRepositoryMemory implements AdminRepository {
   async findByCPF(cpf: string): Promise<AdminEntity> {
-    const found = this.admins.find((admin) => admin.cpf === cpf);
+    const found = this.admins.find(
+      (admin) => admin.cpf === cpf && admin.isActive,
+    );
     if (!found) throw new Error(`Cannot find admin by cpf ${cpf}`);
     return found;
   }
+  async getAllActive(): Promise<AdminEntity[]> {
+    return this.admins.filter((admin) => admin.isActive);
+  }
+
   async getAll(): Promise<AdminEntity[]> {
     return this.admins;
   }
   async findByEmail(email: string): Promise<AdminEntity> {
-    const found = this.admins.find((admin) => admin.email === email);
+    const found = this.admins.find(
+      (admin) => admin.email === email && admin.isActive,
+    );
     if (!found) throw new Error(`Cannot find admin by email ${email}`);
     return found;
   }
   async get(id: string): Promise<AdminEntity> {
-    const found = this.admins.find((admin) => admin.id === id);
+    const found = this.admins.find(
+      (admin) => admin.id === id && admin.isActive,
+    );
     if (!found) throw new Error(`Cannot find admin by id ${id}`);
     return found;
   }
