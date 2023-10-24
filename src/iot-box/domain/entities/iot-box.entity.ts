@@ -17,15 +17,18 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   }
   inactivateBox(): void {
     this._isActive = false;
+    this.updatedAt = new Date();
   }
 
   activateBox(): void {
     this._isActive = true;
+    this.updatedAt = new Date();
   }
 
   updateBatteryStatus(battery: number): void {
     this.battery = battery;
     this.batteryStatus = this.calculateBatteryStatus();
+    this.updatedAt = new Date();
   }
 
   checkBatteryStatus(): BatteryStatus {
@@ -38,10 +41,12 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
 
   public setBoxOwnerId(id: string) {
     this.props.customerId = id;
+    this.updatedAt = new Date();
   }
 
   public unbindOwnerCustomer(): void {
     this.props.customerId = null;
+    this.updatedAt = new Date();
   }
 
   public updateGPSLocation(coordinates: IGPS): void {
@@ -54,6 +59,7 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
       ...this.sensors,
       ...data,
     };
+    this.updatedAt = new Date();
   }
 
   get isActive() {
@@ -81,8 +87,8 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   }
 
   private calculateBatteryStatus(): BatteryStatus {
-    if (this.battery <= BatteryStatus.Low) return BatteryStatus.Low;
-    if (this.battery <= BatteryStatus.Medium) return BatteryStatus.Medium;
-    if (this.battery <= BatteryStatus.High) return BatteryStatus.High;
+    if (this.battery < BatteryStatus.Medium) return BatteryStatus.Low;
+    if (this.battery < BatteryStatus.High) return BatteryStatus.Medium;
+    return BatteryStatus.High;
   }
 }
