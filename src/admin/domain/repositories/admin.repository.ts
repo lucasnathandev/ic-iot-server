@@ -3,4 +3,5 @@ import { AdminEntity } from '../entities/admin.entity';
 
 export interface AdminRepository extends Repository<AdminEntity> {
   findByEmail(email: string): Promise<AdminEntity>;
+  findByCPF(cpf: string): Promise<AdminEntity>;
 }
