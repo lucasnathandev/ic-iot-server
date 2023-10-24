@@ -4,10 +4,36 @@ import { IotBoxProps } from './interfaces/iot-box-props.interface';
 import { IotBoxMethods } from './interfaces/iot-box-methods.interface';
 import { IGPS } from './interfaces/gps.interface';
 import { ISensorFields } from './interfaces/sensor-fields.interface';
+import { BatteryStatus } from './interfaces/enum.battery-status';
 
 export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
+  private batteryStatus: BatteryStatus;
+  private battery: number;
+
+  private _isActive: boolean;
   constructor(props: IotBoxProps, id?: string) {
     super(props, id);
+    this._isActive = true;
+  }
+  inactivateBox(): void {
+    this._isActive = false;
+  }
+
+  activateBox(): void {
+    this._isActive = true;
+  }
+
+  updateBatteryStatus(battery: number): void {
+    this.battery = battery;
+    this.batteryStatus = this.calculateBatteryStatus();
+  }
+
+  checkBatteryStatus(): BatteryStatus {
+    return this.calculateBatteryStatus();
+  }
+
+  getBatteryStatus(): BatteryStatus {
+    return this.batteryStatus;
   }
 
   public setBoxOwnerId(id: string) {
@@ -30,6 +56,10 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     };
   }
 
+  get isActive() {
+    return this._isActive;
+  }
+
   get name() {
     return this.props.name;
   }
@@ -42,19 +72,17 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     return this.props.customerId;
   }
 
-  get battery() {
-    return this.props.battery;
-  }
-
-  set battery(value: number) {
-    this.props.battery = value;
-  }
-
   get sensors() {
     return this.props.sensors;
   }
 
   private set sensors(value: ISensorFields) {
     this.props.sensors = value;
+  }
+
+  private calculateBatteryStatus(): BatteryStatus {
+    if (this.battery <= BatteryStatus.Low) return BatteryStatus.Low;
+    if (this.battery <= BatteryStatus.Medium) return BatteryStatus.Medium;
+    if (this.battery <= BatteryStatus.High) return BatteryStatus.High;
   }
 }
