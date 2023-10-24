@@ -2,6 +2,9 @@ import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerRepository } from 'src/customer/domain/repositories/customer.repository';
 
 export class CustomerRepositoryMemory implements CustomerRepository {
+  constructor() {
+    this.customers = [];
+  }
   public async getCustomers() {
     return this.customers;
   }
@@ -47,5 +50,5 @@ export class CustomerRepositoryMemory implements CustomerRepository {
   async delete(id: string): Promise<void> {
     this.customers = this.customers.filter((customer) => customer.id !== id);
   }
-  private customers: CustomerEntity[] = [];
+  private customers: CustomerEntity[];
 }
