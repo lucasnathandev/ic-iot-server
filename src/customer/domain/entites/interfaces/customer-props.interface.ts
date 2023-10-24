@@ -1,11 +1,6 @@
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
-import { IPerson } from 'src/shared/domain/entities/interfaces/person.interface';
+import { IUser } from 'src/shared/domain/entities/interfaces/user.interface';
 
-export interface CustomerProps extends IPerson {
-  name: string;
-  email: string;
-  age: number;
-  password?: string;
-  readonly cpf: string;
+export interface CustomerProps extends IUser {
   boxes: IotBoxEntity[];
 }
