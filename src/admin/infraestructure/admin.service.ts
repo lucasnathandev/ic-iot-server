@@ -9,12 +9,12 @@ import { AdminEntity } from '../domain/entities/admin.entity';
 
 @Injectable()
 export class AdminService {
-  constructor(
-    private readonly adminRepository: AdminRepository = new AdminRepositoryMemory(),
-  ) {}
-
-  private readonly application: AdminApplicationService =
-    new AdminApplicationService(this.adminRepository);
+  private readonly application: AdminApplicationService;
+  private readonly adminRepository: AdminRepository;
+  constructor() {
+    this.adminRepository = new AdminRepositoryMemory();
+    this.application = new AdminApplicationService(this.adminRepository);
+  }
 
   async create(createAdminDto: CreateAdminDto) {
     const admin = new AdminEntity(createAdminDto, uuid());

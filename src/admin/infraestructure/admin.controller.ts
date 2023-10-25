@@ -22,9 +22,9 @@ export class AdminController {
   }
 
   @Get()
-  findAll(@Query('q') query: { email?: string; cpf?: string }) {
-    if (query) return this.adminService.searchAdmin(query);
-    return this.adminService.findAll();
+  findAll(@Query('email') email?: string, @Query('cpf') cpf?: string) {
+    if (email) return this.adminService.searchAdmin({ email });
+    if (cpf) return this.adminService.searchAdmin({ cpf });
   }
 
   @Get(':id')
