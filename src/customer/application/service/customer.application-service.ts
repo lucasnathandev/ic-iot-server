@@ -31,4 +31,9 @@ export class CustomerApplicationService {
   async delete(id: string) {
     return await this.customerRepository.delete(id);
   }
+
+  async getCustomerBoxes(id: string) {
+    const customer = await this.customerRepository.get(id);
+    return customer.boxes;
+  }
 }
