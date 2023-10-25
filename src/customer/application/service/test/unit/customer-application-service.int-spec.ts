@@ -21,25 +21,25 @@ describe('CustomerApplicationService integration tests', () => {
     );
     await sut.create(stubCustomer);
 
-    expect(await sut.findByEmail(stubCustomer.email)).toStrictEqual(
+    expect(
+      await sut.searchCustomer({ email: stubCustomer.email }),
+    ).toStrictEqual(stubCustomer);
+    expect(await sut.searchCustomer({ cpf: stubCustomer.cpf })).toStrictEqual(
       stubCustomer,
     );
-    expect(await sut.findByCpf(stubCustomer.cpf)).toStrictEqual(stubCustomer);
-    expect(await sut.findById(stubCustomer.id)).toStrictEqual(stubCustomer);
+    expect(await sut.findOne(stubCustomer.id)).toStrictEqual(stubCustomer);
     await sut.update(
-      new CustomerEntity(
-        {
-          name: 'Jane',
-          age: 30,
-          cpf: new CPF().generateRandomCpf(),
-          boxes: [],
-          email: 'jane@gmail.com',
-        },
-        'fakeid',
-      ),
+      'fakeid',
+      new CustomerEntity({
+        name: 'Jane',
+        age: 30,
+        cpf: new CPF().generateRandomCpf(),
+        boxes: [],
+        email: 'jane@gmail.com',
+      }),
     );
 
-    const stubCustomerJane = await sut.findById(stubCustomer.id);
+    const stubCustomerJane = await sut.findOne(stubCustomer.id);
 
     const stubBox = new IotBoxEntity(
       {

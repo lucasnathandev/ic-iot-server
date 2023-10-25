@@ -12,20 +12,24 @@ export class CustomerApplicationService {
     await this.customerRepository.save(customer);
   }
 
-  async findById(id: string) {
+  async findAll(): Promise<CustomerEntity[]> {
+    return await this.customerRepository.getAll();
+  }
+
+  async findOne(id: string) {
     return await this.customerRepository.get(id);
   }
 
-  async findByEmail(name: string) {
-    return await this.customerRepository.findByEmail(name);
+  async searchCustomer(query: {
+    email?: string;
+    cpf?: string;
+  }): Promise<CustomerEntity> {
+    if (query.email) return this.customerRepository.findByEmail(query.email);
+    if (query.cpf) return this.customerRepository.findByCpf(query.cpf);
   }
 
-  async findByCpf(cpf: string) {
-    return await this.customerRepository.findByCpf(cpf);
-  }
-
-  async update(data: Partial<CustomerEntity>) {
-    return await this.customerRepository.update(data.id, data);
+  async update(id: string, data: Partial<CustomerEntity>) {
+    return await this.customerRepository.update(id, data);
   }
 
   async delete(id: string) {
