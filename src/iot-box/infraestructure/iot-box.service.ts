@@ -12,15 +12,15 @@ export class IotBoxService {
     return `This action returns all iotBox`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} iotBox`;
   }
 
-  update(id: number, updateIotBoxDto: UpdateIotBoxDto) {
+  update(id: string, updateIotBoxDto: UpdateIotBoxDto) {
     return `This action updates a #${id} iotBox`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} iotBox`;
   }
 }

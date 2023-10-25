@@ -22,17 +22,17 @@ export class IotBoxGateway {
   }
 
   @SubscribeMessage('updateIotBoxSensorData')
-  findOne(@MessageBody() id: number) {
+  findOne(@MessageBody() id: string) {
     return this.iotBoxService.findOne(id);
   }
 
   @SubscribeMessage('updateIotBox')
-  update(@MessageBody() updateIotBoxDto: UpdateIotBoxDto) {
+  update(@MessageBody() updateIotBoxDto: UpdateIotBoxDto & { id: string }) {
     return this.iotBoxService.update(updateIotBoxDto.id, updateIotBoxDto);
   }
 
   @SubscribeMessage('removeIotBox')
-  remove(@MessageBody() id: number) {
+  remove(@MessageBody() id: string) {
     return this.iotBoxService.remove(id);
   }
 }
