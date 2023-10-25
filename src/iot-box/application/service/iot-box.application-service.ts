@@ -1,19 +1,20 @@
 import { ISensorFields } from 'src/iot-box/domain/entities/interfaces/sensor-fields.interface';
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
+import { IotBoxServiceMethods } from './interfaces/iot-box-service-methods.interface';
 
-export class IotBoxApplicationService {
+export class IotBoxApplicationService implements IotBoxServiceMethods {
   constructor(private iotBoxRepository: IotBoxRepository) {}
 
   async createBox(box: IotBoxEntity): Promise<void> {
     await this.iotBoxRepository.save(box);
   }
 
-  async getBox(id: string): Promise<IotBoxEntity> {
+  async findBox(id: string): Promise<IotBoxEntity> {
     return await this.iotBoxRepository.get(id);
   }
 
-  async getBoxByName(name: string): Promise<IotBoxEntity> {
+  async findBoxByName(name: string): Promise<IotBoxEntity> {
     return await this.iotBoxRepository.findByName(name);
   }
 
@@ -27,8 +28,24 @@ export class IotBoxApplicationService {
   }
 
   async updateBatteryStatus(id: string, battery: number): Promise<void> {
-    await this.iotBoxRepository.update(id, {
-      battery,
-    } as Partial<IotBoxEntity>);
+    const box = await this.iotBoxRepository.get(id);
+    box.updateBatteryStatus(battery);
+    this.iotBoxRepository.update(id, box);
+  }
+
+  async activateBox(id: string): Promise<void> {
+    const box = await this.iotBoxRepository.get(id);
+    if (!box.isActive) {
+      box.activateBox();
+      this.iotBoxRepository.update(id, box);
+    }
+  }
+
+  async inactivateBox(id: string): Promise<void> {
+    const box = await this.iotBoxRepository.get(id);
+    if (box.isActive) {
+      box.inactivateBox();
+      this.iotBoxRepository.update(id, box);
+    }
   }
 }

@@ -29,10 +29,10 @@ describe('IotBoxApplicationService integration tests', () => {
 
     await sut.createBox(box);
 
-    const foundBox = await sut.getBox('boxid');
-    const foundByNameBox = await sut.getBoxByName('Box');
-    await expect(sut.getBox('anyboxid')).rejects.toThrow();
-    await expect(sut.getBoxByName('anyboxname')).rejects.toThrow();
+    const foundBox = await sut.findBox('boxid');
+    const foundByNameBox = await sut.findBoxByName('Box');
+    await expect(sut.findBox('anyboxid')).rejects.toThrow();
+    await expect(sut.findBoxByName('anyboxname')).rejects.toThrow();
     await expect(sut.createBox({} as any)).rejects.toThrow();
     await expect(sut.updateBoxSensors('anyboxid', {} as any)).rejects.toThrow();
     await expect(sut.updateBatteryStatus('anyboxid', 0.5)).rejects.toThrow();
@@ -47,5 +47,9 @@ describe('IotBoxApplicationService integration tests', () => {
     });
     expect(box.sensors.gps.latitude).toBe(2);
     expect(box.sensors.gps.longitude).toBe(-10);
+    await sut.inactivateBox(box.id);
+    expect(box.isActive).toBe(false);
+    await sut.activateBox(box.id);
+    expect(box.isActive).toBe(true);
   });
 });
