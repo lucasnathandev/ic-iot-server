@@ -87,8 +87,8 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   }
 
   private calculateBatteryStatus(): BatteryStatus {
-    if (this.battery < BatteryStatus.Medium) return BatteryStatus.Low;
-    if (this.battery < BatteryStatus.High) return BatteryStatus.Medium;
+    if (this.battery <= 0.2) return BatteryStatus.Low;
+    if (this.battery <= 0.6) return BatteryStatus.Medium;
     return BatteryStatus.High;
   }
 }

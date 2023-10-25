@@ -6,11 +6,13 @@ describe('IotBoxEntity unit tests', () => {
   let sut: IotBoxEntity;
 
   it('should run methods correctly', () => {
-    sut = new IotBoxEntity({
-      name: 'Box2',
-      battery: 0.5,
-      sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
-    });
+    sut = new IotBoxEntity(
+      {
+        name: 'Box2',
+        sensors: { gps: { latitude: 44.02, longitude: 24.04 } },
+      },
+      'someboxid',
+    );
 
     expect(sut.customerId).toBeUndefined();
 
@@ -46,5 +48,11 @@ describe('IotBoxEntity unit tests', () => {
     sut.unbindOwnerCustomer();
 
     expect(sut.customerId).toBeNull();
+    sut.inactivateBox();
+    expect(sut.isActive).toBe(false);
+    sut.activateBox();
+    expect(sut.isActive).toBe(true);
+    sut.updateBatteryStatus(0.5);
+    expect(sut.getBatteryStatus()).toBe('Medium');
   });
 });
