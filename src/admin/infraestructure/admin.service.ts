@@ -1,26 +1,47 @@
+import { v4 as uuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { AdminApplicationService } from '../application/service/admin.application-service';
+import { AdminRepositoryMemory } from './repositories/in-memory-admin.repository';
+import { AdminRepository } from '../domain/repositories/admin.repository';
+import { AdminEntity } from '../domain/entities/admin.entity';
 
 @Injectable()
 export class AdminService {
-  create(createAdminDto: CreateAdminDto) {
-    return 'This action adds a new admin';
+  constructor(
+    private readonly adminRepository: AdminRepository = new AdminRepositoryMemory(),
+  ) {}
+
+  private readonly application: AdminApplicationService =
+    new AdminApplicationService(this.adminRepository);
+
+  async create(createAdminDto: CreateAdminDto) {
+    const admin = new AdminEntity(createAdminDto, uuid());
+    return this.application.createAdmin(admin);
   }
 
-  findAll() {
-    return `This action returns all admin`;
+  async findAllActive(): Promise<AdminEntity[]> {
+    return await this.application.allActiveAdminList();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  async findAll(): Promise<AdminEntity[]> {
+    return await this.application.allAdminList();
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
+  async findOne(id: string) {
+    return await this.application.findAdmin(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} admin`;
+  async searchAdmin(query: { email?: string; cpf?: string }) {
+    return await this.application.searchAdmin(query);
+  }
+
+  async update(id: string, updateAdminDto: UpdateAdminDto) {
+    await this.application.updateAdmin(id, updateAdminDto);
+  }
+
+  async delete(id: string) {
+    return await this.application.deleteAdmin(id);
   }
 }
