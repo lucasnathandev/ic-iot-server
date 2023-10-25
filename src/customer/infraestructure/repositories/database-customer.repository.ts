@@ -1,7 +1,7 @@
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerRepository } from 'src/customer/domain/repositories/customer.repository';
 
-export class CustomerRepositoryDatabase implements CustomerRepository {
+export class CustomerRepositoryDatabase {
   findByEmail(email: string) {
     throw new Error('Method not implemented.');
   }
