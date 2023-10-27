@@ -16,6 +16,7 @@ describe('CustomerApplicationService integration tests', () => {
         cpf: '12345678901',
         boxes: [],
         email: 'lucas@gmail.com',
+        password: 'anypassword',
       },
       'fakeid',
     );
@@ -36,6 +37,7 @@ describe('CustomerApplicationService integration tests', () => {
         cpf: new CPF().generateRandomCpf(),
         boxes: [],
         email: 'jane@gmail.com',
+        password: 'anypassword',
       }),
     );
 
