@@ -12,12 +12,12 @@ describe('CustomerEntity unit tests', () => {
       cpf: new CPF().generateRandomCpf('RJ'),
       boxes: [],
       email: 'jane@gmail.com',
+      password: 'anypassword',
     });
 
     const box = new IotBoxEntity(
       {
         name: 'Iot Box 1',
-        battery: 1,
         customerId: sut.id,
         sensors: { gps: { latitude: 10.02, longitude: -20.2 } },
       },
@@ -25,12 +25,12 @@ describe('CustomerEntity unit tests', () => {
     );
 
     expect(sut.boxes.length).toBe(0);
+
     sut.acquireBox(box);
     expect(sut.boxes.length).toBe(1);
     expect(sut.boxes[0]).toStrictEqual(box);
 
     sut.releaseBox(box.id);
-
     expect(sut.boxes.includes(box)).toBeFalsy();
   });
 });
