@@ -8,9 +8,8 @@ describe('AdminEntity unit tests', () => {
       name: 'Lucas',
       age: 27,
       cpf: new CPF().generateRandomCpf(),
-      boxes: [],
       email: 'lucas@gmail.com',
-      role: 'Admin',
+      password: 'anypassword',
     });
 
     expect(sut.passwordChanged).toBeFalsy();

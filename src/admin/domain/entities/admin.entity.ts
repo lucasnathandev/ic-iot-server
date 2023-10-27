@@ -1,9 +1,12 @@
 import { IUser as AdminProps } from 'src/shared/domain/entities/interfaces/user.interface';
-import { Entity } from 'src/shared/domain/entities/entity';
 
 import { AdminMethods } from '../interfaces/admin-methods';
+import { UserEntity } from 'src/shared/domain/entities/user.entity';
 
-export class AdminEntity extends Entity<AdminProps> implements AdminMethods {
+export class AdminEntity
+  extends UserEntity<AdminProps>
+  implements AdminMethods
+{
   public passwordChanged: boolean;
   private _role: string;
   constructor(props: AdminProps, id?: string) {
