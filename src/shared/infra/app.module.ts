@@ -5,13 +5,24 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { CustomerModule } from 'src/customer/infraestructure/customer.module';
 import { AdminModule } from '../../admin/infraestructure/admin.module';
-import { AdminService } from 'src/admin/infraestructure/admin.service';
-import { CustomerService } from 'src/customer/infraestructure/customer.service';
-import { JwtService } from '@nestjs/jwt';
+import { AuthModule } from 'src/auth/auth.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
-  imports: [IotBoxModule, CustomerModule, ConfigModule.forRoot(), AdminModule],
+  imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 10000,
+        limit: 100,
+      },
+    ]),
+    ConfigModule.forRoot(),
+    IotBoxModule,
+    CustomerModule,
+    AdminModule,
+    AuthModule,
+  ],
   controllers: [AppController],
-  providers: [AppService, AdminService, CustomerService, JwtService],
+  providers: [AppService],
 })
 export class AppModule {}
