@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
@@ -16,7 +17,7 @@ export class CustomerService {
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<void> {
-    const customer = new CustomerEntity(createCustomerDto);
+    const customer = new CustomerEntity(createCustomerDto, uuid());
     await this.application.create(customer);
   }
 
