@@ -4,12 +4,14 @@ import { AuthService } from './auth.service';
 import { AdminService } from 'src/admin/infraestructure/admin.service';
 import { CustomerService } from 'src/customer/infraestructure/customer.service';
 import { JwtService } from '@nestjs/jwt';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 describe('AuthController', () => {
   let controller: AuthController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ThrottlerModule.forRoot()],
       controllers: [AuthController],
       providers: [AuthService, AdminService, CustomerService, JwtService],
     }).compile();

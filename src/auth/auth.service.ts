@@ -21,6 +21,7 @@ export class AuthService {
       const validUser: UserEntity<any> | any =
         this.validateCredentials(credentials);
       const isAdmin = validUser instanceof AdminEntity;
+      console.log(process.env.JWT_SECRET);
 
       const token = await this.jwtService.signAsync(
         {
@@ -33,8 +34,6 @@ export class AuthService {
 
       return { token };
     } catch (error) {
-      console.log(error);
-
       return error;
     }
   }
