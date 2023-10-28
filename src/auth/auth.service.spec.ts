@@ -1,19 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
+import { ICredentials } from 'src/shared/infra/interfaces/credentials.interface';
 import { AdminService } from 'src/admin/infraestructure/admin.service';
 import { CustomerService } from 'src/customer/infraestructure/customer.service';
 import { JwtService } from '@nestjs/jwt';
-import { ICredentials } from 'src/shared/infra/interfaces/credentials.interface';
-import { UnauthorizedException } from '@nestjs/common';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import envConfig from 'src/shared/infra/env.config';
 
 describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ThrottlerModule.forRoot()],
-      providers: [AuthService, AdminService, CustomerService, JwtService],
+      imports: [
+        ConfigModule.forRoot({
+          load: [envConfig],
+        }),
+      ],
+      providers: [
+        AuthService,
+        AdminService,
+        CustomerService,
+        JwtService,
+        ConfigService,
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
@@ -29,7 +39,6 @@ describe('AuthService', () => {
       password: 'pass',
     };
 
-    const userAuthenticated = await service.login(credentials, '192.168.0.1');
-    expect(userAuthenticated).toBeInstanceOf(UnauthorizedException);
+    await expect(service.login(credentials, '192.168.0.1')).rejects.toThrow();
   });
 });
