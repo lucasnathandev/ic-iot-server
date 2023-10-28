@@ -1,4 +1,3 @@
-import { Entity } from 'src/shared/domain/entities/entity';
 import { CustomerProps } from './interfaces/customer-props.interface';
 import { CustomerMethods } from './interfaces/customer-methods.interface';
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
