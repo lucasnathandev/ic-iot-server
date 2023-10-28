@@ -7,7 +7,7 @@ import { CustomerModule } from 'src/customer/infraestructure/customer.module';
 import { AdminModule } from '../../admin/infraestructure/admin.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { ThrottlerModule } from '@nestjs/throttler';
-
+import envConfig from './env.config';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -16,7 +16,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
         limit: 100,
       },
     ]),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true, load: [envConfig] }),
     IotBoxModule,
     CustomerModule,
     AdminModule,
