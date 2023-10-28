@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { AdminEntity } from 'src/admin/domain/entities/admin.entity';
 import { UserEntity } from 'src/shared/domain/entities/user.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -14,28 +15,27 @@ export class AuthService {
     private readonly adminService: AdminService,
     private readonly customerService: CustomerService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
+  private jwtSecret = this.configService.get<string>('JWT_SECRET');
   async login(credentials: ICredentials, ip: string) {
-    try {
-      const validUser: UserEntity<any> | any =
-        this.validateCredentials(credentials);
-      const isAdmin = validUser instanceof AdminEntity;
-      console.log(process.env.JWT_SECRET);
+    const validUser: UserEntity<any> | any = await this.validateCredentials(
+      credentials,
+    );
 
-      const token = await this.jwtService.signAsync(
-        {
-          id: validUser.id,
-          role: isAdmin ? validUser.role : undefined,
-          ip,
-        },
-        { secret: process.env.JWT_SECRET },
-      );
+    const isAdmin = validUser instanceof AdminEntity;
 
-      return { token };
-    } catch (error) {
-      return error;
-    }
+    const token = await this.jwtService.signAsync(
+      {
+        id: validUser.id,
+        role: isAdmin ? validUser.role : undefined,
+        ip,
+      },
+      { secret: this.jwtSecret },
+    );
+
+    return { token };
   }
 
   private async findUser(
@@ -55,25 +55,17 @@ export class AuthService {
   }
 
   private async validateCredentials(credentials: ICredentials) {
-    try {
-      const { email, password } = credentials;
+    const { email, password } = credentials;
 
-      const foundUser = await this.findUser(email);
+    const foundUser = await this.findUser(email);
 
-      if (foundUser.error)
-        throw new UnauthorizedException('Invalid credentials');
+    if (foundUser.error) throw new UnauthorizedException('Invalid credentials');
 
-      const isValidPassword = await bcrypt.compare(
-        password,
-        foundUser.password,
-      );
+    const isValidPassword = await bcrypt.compare(password, foundUser.password);
 
-      if (!isValidPassword)
-        throw new UnauthorizedException('Invalid credentials');
+    if (!isValidPassword)
+      throw new UnauthorizedException('Invalid credentials');
 
-      return foundUser;
-    } catch (error) {
-      return error;
-    }
+    return foundUser;
   }
 }
