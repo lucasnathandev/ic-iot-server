@@ -7,8 +7,20 @@ export class CustomerEntity
   extends UserEntity<CustomerProps>
   implements CustomerMethods
 {
+  private passwordChanged: boolean;
   constructor(props: CustomerProps, id?: string) {
     super(props, id);
+    this.passwordChanged = false;
+  }
+  updateName(name: string): void {
+    this.props.name = name;
+  }
+  changePassword(newPassword: string): void {
+    this.props.password = newPassword;
+    this.passwordChanged = true;
+  }
+  unactivateUser(): void {
+    this.props.isActive = false;
   }
 
   releaseBox(id: string): void {
@@ -46,5 +58,9 @@ export class CustomerEntity
 
   get boxes() {
     return this.props.boxes;
+  }
+
+  get isActive() {
+    return this.props.isActive;
   }
 }
