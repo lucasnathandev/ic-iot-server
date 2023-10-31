@@ -16,6 +16,14 @@ export class AdminEntity
     this.props.isActive = true;
   }
 
+  get name() {
+    return this.props.name;
+  }
+
+  get age() {
+    return this.props.age;
+  }
+
   get role() {
     return this._role;
   }
