@@ -5,7 +5,7 @@ import * as request from 'supertest';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-
+  let sut: request.SuperTest<request.Test>;
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -13,9 +13,10 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+    sut = request(app.getHttpServer());
   });
 
-  it('/auth', () => {
-    return request(app.getHttpServer()).get('/').expect(200);
+  it('/', () => {
+    return sut.get('/').expect(200);
   });
 });
