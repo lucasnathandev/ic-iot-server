@@ -9,7 +9,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Ip() ip: string, @Body() credentials: ICredentials) {
-    return this.authService.login(credentials, ip);
+  async login(@Ip() ip: string, @Body() credentials: ICredentials) {
+    return await this.authService.login(credentials, ip);
   }
 }

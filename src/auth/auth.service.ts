@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ICredentials } from 'src/shared/infra/interfaces/credentials.interface';
 import bcrypt from 'bcrypt';
 import { AdminService } from 'src/admin/infraestructure/admin.service';
@@ -18,6 +18,10 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
+  private readonly logger: Logger = new Logger(AuthService.name, {
+    timestamp: true,
+  });
+
   private jwtSecret = this.configService.get<string>('JWT_SECRET');
   async login(credentials: ICredentials, ip: string) {
     const validUser: UserEntity<any> | any = await this.validateCredentials(
@@ -34,7 +38,7 @@ export class AuthService {
       },
       { secret: this.jwtSecret },
     );
-
+    this.logger.log('Token generated');
     return { token };
   }
 
@@ -44,7 +48,7 @@ export class AuthService {
     try {
       const user = await this.adminService.searchAdmin({ email });
       return user;
-    } catch {
+    } catch (error) {
       try {
         const user = await this.customerService.searchCustomer({ email });
         return user;

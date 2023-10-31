@@ -12,7 +12,7 @@ describe('AuthController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ThrottlerModule.forRoot()],
+      imports: [ThrottlerModule.forRoot([{ ttl: 10000, limit: 20 }])],
       controllers: [AuthController],
       providers: [
         AuthService,
