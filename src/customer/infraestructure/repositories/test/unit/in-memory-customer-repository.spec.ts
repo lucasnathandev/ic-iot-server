@@ -12,6 +12,7 @@ describe('CustomerRepositoryMemory unit tests', () => {
         age: 39,
         cpf: new CPF().generateRandomCpf(),
         boxes: [],
+        password: '123',
         email: 'john@gmail.com',
       },
       'johnid',
@@ -23,9 +24,9 @@ describe('CustomerRepositoryMemory unit tests', () => {
     );
     expect(await sut.findByCpf(stubCustomer.cpf)).toStrictEqual(stubCustomer);
     expect(await sut.get(stubCustomer.id)).toStrictEqual(stubCustomer);
-    await sut.update(stubCustomer.id, { age: 30 });
+    await sut.update(stubCustomer.id, { name: 'Harry' });
 
-    expect(await sut.get(stubCustomer.id)).toContain({ age: 30 });
+    expect(await sut.get(stubCustomer.id)).toContain({ name: 'Harry' });
     await sut.delete(stubCustomer.id);
     expect((await sut.getCustomers()).includes(stubCustomer)).toBeFalsy();
   });

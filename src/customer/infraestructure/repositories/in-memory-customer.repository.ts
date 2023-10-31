@@ -32,8 +32,15 @@ export class CustomerRepositoryMemory implements CustomerRepository {
   }
 
   async save(entity: CustomerEntity): Promise<void> {
+    const userAlreadyExists = this.customers.find(
+      (customer) =>
+        customer.email === entity.email || customer.cpf === entity.cpf,
+    );
+    if (userAlreadyExists)
+      throw new Error('Cannot create users with same cpf or email');
     this.customers.push(entity);
   }
+
   async update(
     id: string,
     data: CustomerEntity | Partial<CustomerEntity>,
@@ -43,8 +50,11 @@ export class CustomerRepositoryMemory implements CustomerRepository {
     if (index === -1) throw new Error(`Cannot find customer to update`);
 
     const customer = this.customers[index];
-    customer.age = data.age;
+    data.name && customer.updateName(data.name);
+    data.password && customer.changePassword(data.password);
+    data.isActive === false && customer.unactivateUser();
     customer.updatedAt = new Date();
+    this.customers[index] = customer;
   }
 
   async delete(id: string): Promise<void> {
