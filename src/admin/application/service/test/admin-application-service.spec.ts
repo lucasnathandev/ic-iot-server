@@ -2,6 +2,7 @@ import { AdminEntity } from 'src/admin/domain/entities/admin.entity';
 import { AdminRepository } from 'src/admin/domain/repositories/admin.repository';
 import { AdminRepositoryMemory } from 'src/admin/infraestructure/repositories/in-memory-admin.repository';
 import { AdminApplicationService } from '../admin.application-service';
+import { CPF } from 'src/shared/application/lib/CPF';
 describe('AdminApplicationService integration tests', () => {
   let adminRepository: AdminRepository;
   let sut: AdminApplicationService;
@@ -15,7 +16,7 @@ describe('AdminApplicationService integration tests', () => {
       {
         name: 'I am admin',
         age: 35,
-        cpf: '12345678901',
+        cpf: new CPF().generateRandomCpf(),
         email: 'iamadmin@gmail.com',
         password: 'iamadminpass',
         isActive: true,
