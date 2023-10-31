@@ -1,6 +1,8 @@
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerRepository } from 'src/customer/domain/repositories/customer.repository';
 import { BoxAcquisitionService } from 'src/customer/domain/services/box-acquisition.service';
+import { UpdateCustomerDto } from 'src/customer/infraestructure/dto/update-customer.dto';
+import { CPF } from 'src/shared/application/lib/CPF';
 
 export class CustomerApplicationService {
   constructor(private customerRepository: CustomerRepository) {}
@@ -9,6 +11,9 @@ export class CustomerApplicationService {
     new BoxAcquisitionService();
 
   async create(customer: CustomerEntity) {
+    const isValidCPF = new CPF().validateCpf(customer.cpf);
+    if (!isValidCPF) throw new Error('Invalid CPF');
+
     await this.customerRepository.save(customer);
   }
 
@@ -28,7 +33,7 @@ export class CustomerApplicationService {
     if (query.cpf) return this.customerRepository.findByCpf(query.cpf);
   }
 
-  async update(id: string, data: Partial<CustomerEntity>) {
+  async update(id: string, data: UpdateCustomerDto) {
     return await this.customerRepository.update(id, data);
   }
 

@@ -13,7 +13,7 @@ describe('CustomerApplicationService integration tests', () => {
       {
         name: 'lucas',
         age: 20,
-        cpf: '12345678901',
+        cpf: '12345678909',
         boxes: [],
         email: 'lucas@gmail.com',
         password: 'anypassword',
@@ -29,17 +29,13 @@ describe('CustomerApplicationService integration tests', () => {
       stubCustomer,
     );
     expect(await sut.findOne(stubCustomer.id)).toStrictEqual(stubCustomer);
-    await sut.update(
-      'fakeid',
-      new CustomerEntity({
-        name: 'Jane',
-        age: 30,
-        cpf: new CPF().generateRandomCpf(),
-        boxes: [],
-        email: 'jane@gmail.com',
-        password: 'anypassword',
-      }),
-    );
+    await sut.update('fakeid', {
+      name: 'Jane',
+      cpf: new CPF().generateRandomCpf(),
+      boxes: [],
+      email: 'jane@gmail.com',
+      password: 'anypassword',
+    });
 
     const stubCustomerJane = await sut.findOne(stubCustomer.id);
 
@@ -56,7 +52,7 @@ describe('CustomerApplicationService integration tests', () => {
       'janeboxid',
     );
 
-    expect(stubCustomerJane.age).toBe(30);
+    expect(stubCustomerJane.name).toBe('Jane');
     expect(stubCustomerJane.id).toBe(stubCustomer.id);
     expect(stubCustomerJane.email).toBe(stubCustomer.email);
     await sut.boxAcquisitionService.registerBoxOwnership(
