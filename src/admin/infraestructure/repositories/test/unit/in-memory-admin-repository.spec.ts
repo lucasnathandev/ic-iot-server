@@ -20,6 +20,7 @@ describe('AdminRepositoryMemory unit tests', () => {
     });
 
     await sut.save(admin);
+
     const foundByEmail = await sut.findByEmail(admin.email);
     const foundByCPF = await sut.findByCPF(admin.cpf);
     const foundById = await sut.get(admin.id);

@@ -1,24 +1,31 @@
 import { v4 as uuid } from 'uuid';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { AdminApplicationService } from '../application/service/admin.application-service';
-import { AdminRepositoryMemory } from './repositories/in-memory-admin.repository';
+
 import { AdminRepository } from '../domain/repositories/admin.repository';
 import { AdminEntity } from '../domain/entities/admin.entity';
+import bcrypt from 'bcrypt';
+import userDatabase from 'src/shared/infra/data/user-database';
 
 @Injectable()
 export class AdminService {
   private readonly application: AdminApplicationService;
   private readonly adminRepository: AdminRepository;
   constructor() {
-    this.adminRepository = new AdminRepositoryMemory();
+    this.adminRepository = userDatabase.adminRepository;
     this.application = new AdminApplicationService(this.adminRepository);
   }
 
+  private readonly logger: Logger = new Logger(AdminService.name);
+
   async create(createAdminDto: CreateAdminDto) {
-    const admin = new AdminEntity(createAdminDto, uuid());
-    return this.application.createAdmin(admin);
+    const salt = await bcrypt.genSalt(12);
+    const password = await bcrypt.hash(createAdminDto.password, salt);
+    const admin = new AdminEntity({ ...createAdminDto, password }, uuid());
+    this.application.createAdmin(admin);
+    this.logger.log('Admin created');
   }
 
   async findAllActive(): Promise<AdminEntity[]> {
@@ -38,10 +45,14 @@ export class AdminService {
   }
 
   async update(id: string, updateAdminDto: UpdateAdminDto) {
-    await this.application.updateAdmin(id, updateAdminDto);
+    const salt = await bcrypt.genSalt(12);
+    const password = await bcrypt.hash(updateAdminDto.password, salt);
+    await this.application.updateAdmin(id, { ...updateAdminDto, password });
+    this.logger.log('Admin updated');
   }
 
   async delete(id: string) {
-    return await this.application.deleteAdmin(id);
+    await this.application.deleteAdmin(id);
+    this.logger.log('Admin deleted');
   }
 }

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  Logger,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -15,9 +16,11 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
+  private readonly logger: Logger = new Logger(AdminController.name);
 
-  @Post()
+  @Post('create')
   create(@Body() createAdminDto: CreateAdminDto) {
+    this.logger.log('Creating admin');
     return this.adminService.create(createAdminDto);
   }
 
@@ -25,6 +28,7 @@ export class AdminController {
   findAll(@Query('email') email?: string, @Query('cpf') cpf?: string) {
     if (email) return this.adminService.searchAdmin({ email });
     if (cpf) return this.adminService.searchAdmin({ cpf });
+    return this.adminService.findAllActive();
   }
 
   @Get(':id')
@@ -32,12 +36,12 @@ export class AdminController {
     return this.adminService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(id, updateAdminDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
     return this.adminService.delete(id);
   }

@@ -3,6 +3,9 @@ import { AdminRepository } from 'src/admin/domain/repositories/admin.repository'
 import { UpdateAdminDto } from '../dto/update-admin.dto';
 
 export class AdminRepositoryMemory implements AdminRepository {
+  constructor() {
+    this.admins = [];
+  }
   async findByCPF(cpf: string): Promise<AdminEntity> {
     const found = this.admins.find(
       (admin) => admin.cpf === cpf && admin.isActive,
@@ -21,6 +24,7 @@ export class AdminRepositoryMemory implements AdminRepository {
     const found = this.admins.find(
       (admin) => admin.email === email && admin.isActive,
     );
+
     if (!found) throw new Error(`Cannot find admin by email ${email}`);
     return found;
   }
@@ -33,6 +37,11 @@ export class AdminRepositoryMemory implements AdminRepository {
   }
 
   async save(entity: AdminEntity): Promise<void> {
+    const userAlreadyExists = this.admins.find(
+      (admin) => admin.email === entity.email || admin.cpf === entity.cpf,
+    );
+    if (userAlreadyExists)
+      throw new Error('Cannot create users with same cpf or email');
     this.admins.push(entity);
   }
 
@@ -51,5 +60,5 @@ export class AdminRepositoryMemory implements AdminRepository {
     this.admins[index].unactivateAdmin();
   }
 
-  private admins: AdminEntity[] = [];
+  private admins: AdminEntity[];
 }
