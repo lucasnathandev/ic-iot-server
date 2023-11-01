@@ -1,7 +1,7 @@
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerRepository } from 'src/customer/domain/repositories/customer.repository';
 import { BoxAcquisitionService } from 'src/customer/domain/services/box-acquisition.service';
-import { UpdateCustomerDto } from 'src/customer/infraestructure/dto/update-customer.dto';
+import { UpdateCustomerDto } from 'src/customer/infra/dto/update-customer.dto';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
 import { CPF } from 'src/shared/application/lib/CPF';
 
@@ -36,7 +36,7 @@ export class CustomerApplicationService {
       box,
     );
 
-    return Promise.all([
+    await Promise.all([
       this.customerRepository.update(updated.customer.id, updated.customer),
       this.iotBoxRepository.update(updated.box.id, updated.box),
     ]);
@@ -50,7 +50,7 @@ export class CustomerApplicationService {
       box,
     );
 
-    return Promise.all([
+    await Promise.all([
       this.customerRepository.update(updated.customer.id, updated.customer),
       this.iotBoxRepository.update(updated.box.id, updated.box),
     ]);

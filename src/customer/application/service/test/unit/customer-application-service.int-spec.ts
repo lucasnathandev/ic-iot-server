@@ -1,9 +1,9 @@
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerApplicationService } from '../../customer.application-service';
-import { CustomerRepositoryMemory } from 'src/customer/infraestructure/repositories/in-memory-customer.repository';
+import { CustomerRepositoryMemory } from 'src/customer/infra/repositories/in-memory-customer.repository';
 
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
-import { IotBoxRepositoryMemory } from 'src/iot-box/infraestructure/repositories/in-memory-iot-box.repository';
+import { IotBoxRepositoryMemory } from 'src/iot-box/infra/repositories/in-memory-iot-box.repository';
 describe('CustomerApplicationService integration tests', () => {
   let sut: CustomerApplicationService;
 

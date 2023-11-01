@@ -7,14 +7,20 @@ import { CustomerApplicationService } from '../application/service/customer.appl
 import { CustomerRepository } from '../domain/repositories/customer.repository';
 import bcrypt from 'bcrypt';
 import userDatabase from 'src/shared/infra/data/user-database';
+import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
+import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 
 @Injectable()
 export class CustomerService {
   private readonly application: CustomerApplicationService;
   private readonly customerRepository: CustomerRepository;
+  private readonly iotBoxRepository: IotBoxRepository;
   constructor() {
     this.customerRepository = userDatabase.customerRepository;
-    this.application = new CustomerApplicationService(this.customerRepository);
+    this.application = new CustomerApplicationService(
+      this.customerRepository,
+      this.iotBoxRepository,
+    );
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<void> {
@@ -33,6 +39,18 @@ export class CustomerService {
 
   async findOne(id: string): Promise<CustomerEntity> {
     return await this.application.findOne(id);
+  }
+
+  async getCustomerBoxes(id: string): Promise<IotBoxEntity[]> {
+    return await this.application.getCustomerBoxes(id);
+  }
+
+  async acquireBox(id: string, iotBoxId: string): Promise<void> {
+    return await this.application.acquireBox(id, iotBoxId);
+  }
+
+  async devolveBox(id: string, iotBoxId: string): Promise<void> {
+    return await this.application.devolveBox(id, iotBoxId);
   }
 
   async searchCustomer(query: {
