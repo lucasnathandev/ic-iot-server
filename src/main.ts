@@ -11,12 +11,13 @@ async function bootstrap() {
     .setTitle('API Docs')
     .setDescription('IC Iot API routes documentation')
     .setVersion('0.8')
-    .addTag('api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('', app, document);
 
   const port = process.env.PORT || 8000;
-  await app.listen(port, () => logger.log(`Server listening on port ${port}`));
+  await app.listen(port, async () =>
+    logger.log(`Server listening on ${await app.getUrl()}`),
+  );
 }
 bootstrap();
