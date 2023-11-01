@@ -14,6 +14,10 @@ export class IotBoxApplicationService implements IotBoxServiceMethods {
     return await this.iotBoxRepository.get(id);
   }
 
+  async findAll(): Promise<IotBoxEntity[]> {
+    return await this.iotBoxRepository.getAllActive();
+  }
+
   async findBoxByName(name: string): Promise<IotBoxEntity> {
     return await this.iotBoxRepository.findByName(name);
   }

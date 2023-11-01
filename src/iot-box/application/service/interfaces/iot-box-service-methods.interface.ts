@@ -3,6 +3,7 @@ import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 
 export interface IotBoxServiceMethods {
   createBox(box: IotBoxEntity): Promise<void>;
+  findAll(): Promise<IotBoxEntity[]>;
   findBox(id: string): Promise<IotBoxEntity>;
   findBoxByName(id: string): Promise<IotBoxEntity>;
   updateBoxSensors(id: string, data: Partial<ISensorFields>): Promise<void>;
