@@ -3,10 +3,16 @@ import { CreateIotBoxDto } from './dto/create-iot-box.dto';
 import { UpdateIotBoxDto } from './dto/update-iot-box.dto';
 import { IotBoxApplicationService } from '../application/service/iot-box.application-service';
 import { IotBoxEntity } from '../domain/entities/iot-box.entity';
+import iotBoxDatabase from 'src/shared/infra/data/iot-box-database';
 
 @Injectable()
 export class IotBoxService {
-  constructor(private readonly application: IotBoxApplicationService) {}
+  private readonly application: IotBoxApplicationService;
+  constructor() {
+    this.application = new IotBoxApplicationService(
+      iotBoxDatabase.iotBoxRepository,
+    );
+  }
   async create(iotBox: CreateIotBoxDto) {
     return await this.application.createBox(new IotBoxEntity(iotBox));
   }
