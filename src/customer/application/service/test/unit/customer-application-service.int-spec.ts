@@ -1,13 +1,18 @@
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerApplicationService } from '../../customer.application-service';
 import { CustomerRepositoryMemory } from 'src/customer/infraestructure/repositories/in-memory-customer.repository';
-import { CPF } from 'src/shared/application/lib/CPF';
+
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
+import { IotBoxRepositoryMemory } from 'src/iot-box/infraestructure/repositories/in-memory-iot-box.repository';
 describe('CustomerApplicationService integration tests', () => {
   let sut: CustomerApplicationService;
 
   it('should run methods correctly', async () => {
-    sut = new CustomerApplicationService(new CustomerRepositoryMemory());
+    const boxRepository = new IotBoxRepositoryMemory();
+    sut = new CustomerApplicationService(
+      new CustomerRepositoryMemory(),
+      boxRepository,
+    );
 
     const stubCustomer = new CustomerEntity(
       {
@@ -20,8 +25,8 @@ describe('CustomerApplicationService integration tests', () => {
       },
       'fakeid',
     );
-    await sut.create(stubCustomer);
 
+    await sut.create(stubCustomer);
     expect(
       await sut.searchCustomer({ email: stubCustomer.email }),
     ).toStrictEqual(stubCustomer);
@@ -29,11 +34,9 @@ describe('CustomerApplicationService integration tests', () => {
       stubCustomer,
     );
     expect(await sut.findOne(stubCustomer.id)).toStrictEqual(stubCustomer);
+
     await sut.update('fakeid', {
       name: 'Jane',
-      cpf: new CPF().generateRandomCpf(),
-      boxes: [],
-      email: 'jane@gmail.com',
       password: 'anypassword',
     });
 
@@ -52,17 +55,17 @@ describe('CustomerApplicationService integration tests', () => {
       'janeboxid',
     );
 
+    boxRepository.save(stubBox);
     expect(stubCustomerJane.name).toBe('Jane');
     expect(stubCustomerJane.id).toBe(stubCustomer.id);
     expect(stubCustomerJane.email).toBe(stubCustomer.email);
-    await sut.boxAcquisitionService.registerBoxOwnership(
-      stubCustomerJane,
-      stubBox,
-    );
+
+    await sut.acquireBox(stubCustomerJane.id, stubBox.id);
     let janeBoxes = await sut.getCustomerBoxes(stubCustomerJane.id);
     expect(janeBoxes.length).toBe(1);
     expect(janeBoxes.includes(stubBox)).toBeTruthy();
-    sut.boxAcquisitionService.unregisterBoxOwnership(stubCustomerJane, stubBox);
+
+    await sut.devolveBox(stubCustomerJane.id, stubBox.id);
     janeBoxes = await sut.getCustomerBoxes(stubCustomerJane.id);
     expect(janeBoxes).toHaveLength(0);
   });
