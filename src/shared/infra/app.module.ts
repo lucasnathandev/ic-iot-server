@@ -1,10 +1,10 @@
-import { IotBoxModule } from 'src/iot-box/infraestructure/iot-box.module';
+import { IotBoxModule } from 'src/iot-box/infra/iot-box.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { CustomerModule } from 'src/customer/infraestructure/customer.module';
-import { AdminModule } from '../../admin/infraestructure/admin.module';
+import { CustomerModule } from 'src/customer/infra/customer.module';
+import { AdminModule } from '../../admin/infra/admin.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import envConfig from './env.config';

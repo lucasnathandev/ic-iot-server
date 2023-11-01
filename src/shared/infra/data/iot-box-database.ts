@@ -1,4 +1,4 @@
-import { IotBoxRepositoryMemory } from 'src/iot-box/infraestructure/repositories/in-memory-iot-box.repository';
+import { IotBoxRepositoryMemory } from 'src/iot-box/infra/repositories/in-memory-iot-box.repository';
 
 class IotBoxDatabase {
   constructor() {

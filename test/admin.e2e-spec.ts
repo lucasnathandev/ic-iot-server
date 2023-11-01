@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AdminModule } from 'src/admin/infraestructure/admin.module';
-import { AdminService } from 'src/admin/infraestructure/admin.service';
+import { AdminModule } from 'src/admin/infra/admin.module';
+import { AdminService } from 'src/admin/infra/admin.service';
 import { AdminEntity } from 'src/admin/domain/entities/admin.entity';
 import { makeFakeAdmin } from './fakerjs';
-import { AdminController } from 'src/admin/infraestructure/admin.controller';
+import { AdminController } from 'src/admin/infra/admin.controller';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;

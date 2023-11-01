@@ -1,7 +1,7 @@
 import { AdminRepository } from 'src/admin/domain/repositories/admin.repository';
 import { CustomerRepository } from '../../../customer/domain/repositories/customer.repository';
-import { AdminRepositoryMemory } from 'src/admin/infraestructure/repositories/in-memory-admin.repository';
-import { CustomerRepositoryMemory } from 'src/customer/infraestructure/repositories/in-memory-customer.repository';
+import { AdminRepositoryMemory } from 'src/admin/infra/repositories/in-memory-admin.repository';
+import { CustomerRepositoryMemory } from 'src/customer/infra/repositories/in-memory-customer.repository';
 
 class UserDatabase {
   public readonly adminRepository: AdminRepository;
