@@ -21,6 +21,9 @@ export class CustomerController {
     return this.customerService.create(createCustomerDto);
   }
 
+  @Post('acquire/:customerId/')
+  acquireBox(@Param('customerId') id: string) {}
+
   @Get()
   findAll(@Query('email') email?: string, @Query('cpf') cpf?: string) {
     if (email) return this.customerService.searchCustomer({ email });
