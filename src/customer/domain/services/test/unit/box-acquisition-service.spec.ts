@@ -15,12 +15,18 @@ describe('BoxAcquisitionService unit tests', () => {
     const stubGps: IGPS = { latitude: 22.345, longitude: 123.9485 };
 
     const customer = new CustomerEntity(
-      { name: 'Lucas', cpf: new CPF().generateRandomCpf(), age: 34, boxes: [] },
+      {
+        name: 'Lucas',
+        cpf: new CPF().generateRandomCpf(),
+        password: '123',
+        age: 34,
+        boxes: [],
+        email: 'lucas@email.com',
+      },
       'fakeid',
     );
 
     const box = new IotBoxEntity({
-      battery: 1,
       name: 'Lucas first box',
       sensors: { gps: stubGps },
     });
