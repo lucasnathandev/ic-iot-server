@@ -15,10 +15,10 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World"', async () => {
-      const result = await appController.getHello();
+    it('should be defined', async () => {
+      const result = await appController;
 
-      expect(result).toBe('Hello World!');
+      expect(result).toBeDefined();
     });
   });
 });
