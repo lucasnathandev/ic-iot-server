@@ -1,0 +1,10 @@
+version: '3'
+services:
+  node:
+    container_name: nestjs-ic-iot-server
+    build:
+      dockerfile: production.dockerfile
+      context: .
+    ports:
+      - 8000:8000
+    command: ['npm', 'run', 'start:prod']
