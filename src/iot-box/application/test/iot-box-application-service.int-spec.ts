@@ -1,6 +1,6 @@
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
-import { IotBoxRepositoryMemory } from 'src/iot-box/infraestructure/repositories/in-memory-iot-box.repository';
+import { IotBoxRepositoryMemory } from 'src/iot-box/infra/repositories/in-memory-iot-box.repository';
 import { IotBoxApplicationService } from '../service/iot-box.application-service';
 import { BatteryStatus } from 'src/iot-box/domain/entities/interfaces/enum.battery-status';
 
