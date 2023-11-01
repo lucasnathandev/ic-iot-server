@@ -1,3 +1,4 @@
+import { BoxDataEntity } from '../box-data.entity';
 import { IGPS } from '../interfaces/gps.interface';
 import { ISensorFields } from '../interfaces/sensor-fields.interface';
 import { IotBoxEntity } from '../iot-box.entity';
@@ -54,5 +55,29 @@ describe('IotBoxEntity unit tests', () => {
     expect(sut.isActive).toBe(true);
     sut.updateBatteryStatus(0.5);
     expect(sut.getBatteryStatus()).toBe('Medium');
+
+    const stubBoxData = new BoxDataEntity(
+      {
+        battery: 0.5,
+        date: new Date(),
+        time: '12:30',
+        sensors: {
+          gps: {
+            latitude: 35.5,
+            longitude: -100.321,
+          },
+        },
+        boxId: 'fakeboxid',
+      },
+      'asd',
+    );
+
+    expect(sut.getAllBoxData()).toHaveLength(0);
+    sut.registerBoxData(stubBoxData);
+    expect(sut.getAllBoxData()).toContain(stubBoxData.getBoxData());
+    expect(sut.getBoxData(stubBoxData.id));
+    expect(sut.getFilteredBoxData({ startDate: new Date(0) })).toContain(
+      stubBoxData.getBoxData(),
+    );
   });
 });

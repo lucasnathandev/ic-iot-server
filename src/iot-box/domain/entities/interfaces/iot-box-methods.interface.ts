@@ -1,3 +1,5 @@
+import { BoxDataEntity } from '../box-data.entity';
+import { BoxDataProps } from './box-data.interface';
 import { BatteryStatus } from './enum.battery-status';
 import { IGPS } from './gps.interface';
 import { ISensorFields } from './sensor-fields.interface';
@@ -12,4 +14,13 @@ export interface IotBoxMethods {
   getBatteryStatus(): BatteryStatus;
   inactivateBox(): void;
   activateBox(): void;
+  registerBoxData(data: BoxDataEntity): void;
+  getBoxData(id: string): BoxDataProps;
+  getAllBoxData(): BoxDataProps[];
+  getFilteredBoxData(
+    filter: Partial<{
+      startDate: Date;
+      endDate: Date;
+    }>,
+  ): BoxDataProps[];
 }
