@@ -19,30 +19,33 @@ export class AdminController {
   private readonly logger: Logger = new Logger(AdminController.name);
 
   @Post('create')
-  create(@Body() createAdminDto: CreateAdminDto) {
+  async create(@Body() createAdminDto: CreateAdminDto) {
     this.logger.log('Creating admin');
-    return this.adminService.create(createAdminDto);
+    return await this.adminService.create(createAdminDto);
   }
 
   @Get()
-  findAll(@Query('email') email?: string, @Query('cpf') cpf?: string) {
+  async findAll(@Query('email') email?: string, @Query('cpf') cpf?: string) {
     if (email) return this.adminService.searchAdmin({ email });
     if (cpf) return this.adminService.searchAdmin({ cpf });
-    return this.adminService.findAllActive();
+    return await this.adminService.findAllActive();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adminService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.adminService.findOne(id);
   }
 
   @Patch('update/:id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminService.update(id, updateAdminDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateAdminDto: UpdateAdminDto,
+  ) {
+    return await this.adminService.update(id, updateAdminDto);
   }
 
   @Delete('delete/:id')
-  remove(@Param('id') id: string) {
-    return this.adminService.delete(id);
+  async remove(@Param('id') id: string) {
+    return await this.adminService.delete(id);
   }
 }

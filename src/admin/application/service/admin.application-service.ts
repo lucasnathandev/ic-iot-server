@@ -1,6 +1,6 @@
 import { AdminEntity } from 'src/admin/domain/entities/admin.entity';
 import { AdminRepository } from 'src/admin/domain/repositories/admin.repository';
-import { UpdateAdminDto } from 'src/admin/infraestructure/dto/update-admin.dto';
+import { UpdateAdminDto } from 'src/admin/infra/dto/update-admin.dto';
 import { CPF } from 'src/shared/application/lib/CPF';
 
 export class AdminApplicationService {
