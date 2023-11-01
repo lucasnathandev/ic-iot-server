@@ -11,28 +11,33 @@ import { UpdateIotBoxDto } from './dto/update-iot-box.dto';
 export class IotBoxGateway {
   constructor(private readonly iotBoxService: IotBoxService) {}
 
-  @SubscribeMessage('registerIotBox')
+  @SubscribeMessage('create')
   create(@MessageBody() createIotBoxDto: CreateIotBoxDto) {
     return this.iotBoxService.create(createIotBoxDto);
   }
 
-  @SubscribeMessage('saveIotBoxData')
+  @SubscribeMessage('findAll')
   findAll() {
     return this.iotBoxService.findAll();
   }
 
-  @SubscribeMessage('updateIotBoxSensorData')
+  @SubscribeMessage('findOne')
   findOne(@MessageBody() id: string) {
     return this.iotBoxService.findOne(id);
   }
 
-  @SubscribeMessage('updateIotBox')
+  @SubscribeMessage('sensorData')
+  getSensorData(@MessageBody() id: string) {
+    return this.iotBoxService.findOne(id);
+  }
+
+  @SubscribeMessage('update')
   update(@MessageBody() updateIotBoxDto: UpdateIotBoxDto & { id: string }) {
     return this.iotBoxService.update(updateIotBoxDto.id, updateIotBoxDto);
   }
 
-  @SubscribeMessage('removeIotBox')
-  remove(@MessageBody() id: string) {
-    return this.iotBoxService.remove(id);
+  @SubscribeMessage('inactivate')
+  inactivate(@MessageBody() id: string) {
+    return this.iotBoxService.inactivate(id);
   }
 }
