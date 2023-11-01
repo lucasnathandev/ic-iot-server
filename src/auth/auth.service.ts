@@ -1,8 +1,8 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ICredentials } from 'src/shared/infra/interfaces/credentials.interface';
 import bcrypt from 'bcrypt';
-import { AdminService } from 'src/admin/infraestructure/admin.service';
-import { CustomerService } from 'src/customer/infraestructure/customer.service';
+import { AdminService } from 'src/admin/infra/admin.service';
+import { CustomerService } from 'src/customer/infra/customer.service';
 import { JwtService } from '@nestjs/jwt';
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { AdminEntity } from 'src/admin/domain/entities/admin.entity';

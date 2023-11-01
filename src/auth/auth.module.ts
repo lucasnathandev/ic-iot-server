@@ -1,5 +1,5 @@
-import { CustomerService } from './../customer/infraestructure/customer.service';
-import { AdminService } from './../admin/infraestructure/admin.service';
+import { CustomerService } from '../customer/infra/customer.service';
+import { AdminService } from '../admin/infra/admin.service';
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
