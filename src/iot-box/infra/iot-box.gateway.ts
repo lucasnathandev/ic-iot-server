@@ -13,6 +13,8 @@ export class IotBoxGateway {
 
   @SubscribeMessage('create')
   async create(@MessageBody() createIotBoxDto: CreateIotBoxDto) {
+    console.log('a');
+
     return await this.iotBoxService.create(createIotBoxDto);
   }
 
@@ -28,7 +30,7 @@ export class IotBoxGateway {
 
   @SubscribeMessage('sensorData')
   async getSensorData(@MessageBody() id: string) {
-    return await this.iotBoxService.findOne(id);
+    return await this.iotBoxService.getSensorData(id);
   }
 
   @SubscribeMessage('update')

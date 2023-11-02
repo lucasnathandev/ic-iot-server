@@ -1,11 +1,14 @@
 import { NestFactory } from '@nestjs/core';
+import { Logger as NativeLogger } from '@nestjs/common';
 import { AppModule } from './shared/infra/app.module';
-import { Logger } from '@nestjs/common';
+import { Logger } from 'nestjs-pino';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const logger = new Logger(bootstrap.name);
   const app = await NestFactory.create(AppModule);
+  app.useLogger(app.get(Logger));
+
+  const logger = new NativeLogger(bootstrap.name);
 
   const config = new DocumentBuilder()
     .setTitle('API Docs')

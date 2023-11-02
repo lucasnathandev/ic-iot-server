@@ -23,8 +23,7 @@ export class IotBoxService {
 
   async getSensorData(id: string) {
     const box = await this.application.findBox(id);
-    box.sensors;
-    return;
+    return box.getAllBoxData();
   }
 
   async findOne(id: string) {

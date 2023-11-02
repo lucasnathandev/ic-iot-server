@@ -21,6 +21,8 @@ export class AdminService {
   private readonly logger: Logger = new Logger(AdminService.name);
 
   async create(createAdminDto: CreateAdminDto) {
+    this.logger.verbose('Aqui');
+
     const salt = await bcrypt.genSalt(12);
     const password = await bcrypt.hash(createAdminDto.password, salt);
     const admin = new AdminEntity({ ...createAdminDto, password }, uuid());
