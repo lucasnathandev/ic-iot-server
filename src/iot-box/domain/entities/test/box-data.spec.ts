@@ -10,14 +10,6 @@ describe('BoxData unit tests', () => {
     time: '14:04',
     boxId: 'fakeboxid',
   };
-  it('should have properties defined', () => {
-    sut = new BoxDataEntity(data, 'asdas');
-
-    expect(sut.battery).toBeDefined();
-    expect(sut.date).toBeDefined();
-    expect(sut.time).toBeDefined();
-    expect(sut.sensors).toBeDefined();
-  });
 
   it('properties should have correct values', () => {
     sut = new BoxDataEntity(data, '123');
@@ -26,5 +18,16 @@ describe('BoxData unit tests', () => {
     expect(sut.date).toBe(data.date);
     expect(sut.time).toBe(data.time);
     expect(sut.sensors).toStrictEqual(data.sensors);
+  });
+
+  it('should run methods correctly', () => {
+    sut = new BoxDataEntity(data, 'anyid');
+
+    const { createdAt: _, ...allBoxData } = sut.getBoxData();
+
+    expect(allBoxData).toStrictEqual({
+      ...data,
+      id: 'anyid',
+    });
   });
 });

@@ -74,9 +74,10 @@ describe('IotBoxEntity unit tests', () => {
 
     expect(sut.getAllBoxData()).toHaveLength(0);
     sut.registerBoxData(stubBoxData);
-    expect(sut.getAllBoxData()).toContain(stubBoxData.getBoxData());
+
+    expect(sut.getAllBoxData()[0]).toContain(stubBoxData.getBoxData());
     expect(sut.getBoxData(stubBoxData.id));
-    expect(sut.getFilteredBoxData({ startDate: new Date(0) })).toContain(
+    expect(sut.getFilteredBoxData({ startDate: new Date(0) })[0]).toContain(
       stubBoxData.getBoxData(),
     );
   });

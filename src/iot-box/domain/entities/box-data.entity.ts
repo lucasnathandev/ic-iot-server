@@ -29,13 +29,10 @@ export class BoxDataEntity extends Entity<BoxDataProps> {
     return this.props.customerId;
   }
 
-  updateBoxData(data: BoxDataProps) {
-    Object.entries(data).forEach(([key, value]) => {
-      this.props[key] = value;
-    });
-  }
-
   getBoxData() {
-    return this.props;
+    return {
+      ...this.props,
+      createdAt: this.createdAt,
+    };
   }
 }
