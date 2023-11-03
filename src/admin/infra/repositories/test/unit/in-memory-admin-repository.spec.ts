@@ -38,8 +38,8 @@ describe('AdminRepositoryMemory unit tests', () => {
       password: 'newpass',
     });
 
-    expect(await sut.get(admin.id)).not.toContain({ password: 'fakenewpass' });
-    expect(await sut.get(admin.id)).toContain({ password: 'newpass' });
+    expect(await sut.get(admin.id)).not.toContain({ password: 'fakepass' });
+    expect((await sut.get(admin.id)).passwordChanged).toBeTruthy();
 
     await sut.delete(admin.id);
   });
