@@ -54,6 +54,7 @@ export class AdminEntity
   getAdminData() {
     const { password: _, ...props } = this.props;
     return {
+      id: this.id,
       ...props,
       role: this.role,
       createdAt: this.createdAt,
