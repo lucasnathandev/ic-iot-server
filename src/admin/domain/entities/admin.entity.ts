@@ -36,10 +36,6 @@ export class AdminEntity
     return this.props.isActive;
   }
 
-  get password() {
-    return this.props.password;
-  }
-
   get email() {
     return this.props.email;
   }
@@ -53,5 +49,15 @@ export class AdminEntity
   public unactivateAdmin(): void {
     this.props.isActive = false;
     this.updatedAt = new Date();
+  }
+
+  getAdminData() {
+    const { password: _, ...props } = this.props;
+    return {
+      ...props,
+      role: this.role,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
 }

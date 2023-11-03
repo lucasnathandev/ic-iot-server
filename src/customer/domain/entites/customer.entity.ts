@@ -36,10 +36,6 @@ export class CustomerEntity
     return this.props.email;
   }
 
-  get password() {
-    return this.props.password;
-  }
-
   get name() {
     return this.props.name;
   }
@@ -62,5 +58,10 @@ export class CustomerEntity
 
   get isActive() {
     return this.props.isActive;
+  }
+
+  getCustomerData() {
+    const { password, ...props } = this.props;
+    return { ...props, createdAt: this.createdAt, updatedAt: this.updatedAt };
   }
 }

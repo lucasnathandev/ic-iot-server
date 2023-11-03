@@ -4,13 +4,14 @@ import { AdminEntity } from '../../admin.entity';
 describe('AdminEntity unit tests', () => {
   let sut: AdminEntity;
   it('should run methods corretly', () => {
-    sut = new AdminEntity({
+    const stubProps = {
       name: 'Lucas',
       age: 27,
       cpf: new CPF().generateRandomCpf(),
       email: 'lucas@gmail.com',
       password: 'anypassword',
-    });
+    };
+    sut = new AdminEntity(stubProps);
 
     expect(sut.passwordChanged).toBeFalsy();
     sut.changePassword('12345');
@@ -18,5 +19,8 @@ describe('AdminEntity unit tests', () => {
     expect(sut.isActive).toBeTruthy();
     sut.unactivateAdmin();
     expect(sut.isActive).toBeFalsy();
+    const { password: _, ...adminData } = stubProps;
+    const { createdAt, updatedAt, ...restAdminData } = sut.getAdminData();
+    expect(restAdminData).toStrictEqual({ ...adminData, role: 'Admin' });
   });
 });
