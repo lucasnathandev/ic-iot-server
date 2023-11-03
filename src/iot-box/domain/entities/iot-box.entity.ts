@@ -7,7 +7,7 @@ import { ISensorFields } from './interfaces/sensor-fields.interface';
 import { BatteryStatus } from './interfaces/enum.battery-status';
 
 import { BoxDataEntity } from './box-data.entity';
-import { BoxDataProps } from './interfaces/box-data.interface';
+import { BoxDataProps } from './interfaces/box-data-props.interface';
 
 export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   private batteryStatus: BatteryStatus;
@@ -128,5 +128,17 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     if (this.battery <= 0.2) return BatteryStatus.Low;
     if (this.battery <= 0.6) return BatteryStatus.Medium;
     return BatteryStatus.High;
+  }
+
+  getIotBoxData() {
+    return {
+      id: this.id,
+      ...this.props,
+      batteryStatus: this.getBatteryStatus(),
+      battery: this.battery,
+      boxData: this.getAllBoxData(),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
 }

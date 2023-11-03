@@ -1,5 +1,5 @@
 import { BoxDataEntity } from '../box-data.entity';
-import { BoxDataProps } from '../interfaces/box-data.interface';
+import { BoxDataProps } from '../interfaces/box-data-props.interface';
 
 describe('BoxData unit tests', () => {
   let sut: BoxDataEntity;

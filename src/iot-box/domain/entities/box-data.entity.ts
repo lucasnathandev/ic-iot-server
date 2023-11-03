@@ -1,4 +1,4 @@
-import { BoxDataProps } from './interfaces/box-data.interface';
+import { BoxDataProps } from './interfaces/box-data-props.interface';
 import { Entity } from 'src/shared/domain/entities/entity';
 
 export class BoxDataEntity extends Entity<BoxDataProps> {

@@ -1,5 +1,5 @@
 import { BoxDataEntity } from '../box-data.entity';
-import { BoxDataProps } from './box-data.interface';
+import { BoxDataProps } from './box-data-props.interface';
 import { BatteryStatus } from './enum.battery-status';
 import { IGPS } from './gps.interface';
 import { ISensorFields } from './sensor-fields.interface';

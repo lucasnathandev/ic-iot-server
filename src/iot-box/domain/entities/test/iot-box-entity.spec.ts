@@ -80,5 +80,15 @@ describe('IotBoxEntity unit tests', () => {
     expect(sut.getFilteredBoxData({ startDate: new Date(0) })[0]).toContain(
       stubBoxData.getBoxData(),
     );
+
+    expect(sut.getIotBoxData()).toStrictEqual({
+      id: sut.id,
+      ...sut['props'],
+      batteryStatus: sut.getBatteryStatus(),
+      battery: sut['battery'],
+      boxData: sut.getAllBoxData(),
+      createdAt: sut.createdAt,
+      updatedAt: sut.updatedAt,
+    });
   });
 });
