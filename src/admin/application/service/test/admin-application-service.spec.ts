@@ -41,7 +41,7 @@ describe('AdminApplicationService integration tests', () => {
     expect(foundAdminBySearchCPF).toStrictEqual(stubAdmin);
 
     await sut.updateAdmin(stubAdmin.id, { password: '123456' });
-    expect(await sut.findAdmin(stubAdmin.id)).toContain({ password: '123456' });
+    expect((await sut.findAdmin(stubAdmin.id)).passwordChanged).toBeTruthy();
     await sut.deleteAdmin(stubAdmin.id);
     await expect(sut.findAdmin(stubAdmin.id)).rejects.toThrow();
     expect(await sut.allActiveAdminList()).toHaveLength(0);
