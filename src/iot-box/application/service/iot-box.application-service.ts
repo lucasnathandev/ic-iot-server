@@ -2,6 +2,8 @@ import { ISensorFields } from 'src/iot-box/domain/entities/interfaces/sensor-fie
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
 import { IotBoxServiceMethods } from './interfaces/iot-box-service-methods.interface';
+import { BoxDataProps } from 'src/iot-box/domain/entities/interfaces/box-data.interface';
+import { BoxDataEntity } from 'src/iot-box/domain/entities/box-data.entity';
 
 export class IotBoxApplicationService implements IotBoxServiceMethods {
   constructor(private iotBoxRepository: IotBoxRepository) {}
@@ -20,6 +22,11 @@ export class IotBoxApplicationService implements IotBoxServiceMethods {
 
   async findBoxByName(name: string): Promise<IotBoxEntity> {
     return await this.iotBoxRepository.findByName(name);
+  }
+
+  async createBoxData(id: string, boxData: BoxDataProps): Promise<void> {
+    const box = new BoxDataEntity(boxData, id);
+    return await this.iotBoxRepository.updateBoxData(boxData.boxId, box);
   }
 
   async updateBoxSensors(

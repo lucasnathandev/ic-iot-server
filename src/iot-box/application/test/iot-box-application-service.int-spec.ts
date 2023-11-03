@@ -51,5 +51,19 @@ describe('IotBoxApplicationService integration tests', () => {
     expect(box.isActive).toBe(false);
     await sut.activateBox(box.id);
     expect(box.isActive).toBe(true);
+
+    const stubBoxDataProps = {
+      battery: 1,
+      boxId: box.id,
+      date: new Date(),
+      sensors: { gps: { latitude: 11.23, longitude: -40.321 } },
+      time: '12:30',
+    };
+
+    await sut.createBoxData(box.id, stubBoxDataProps);
+
+    const foundBox1 = await sut.findBox(box.id);
+
+    expect(foundBox1.getAllBoxData()[0]).toContain(stubBoxDataProps);
   });
 });

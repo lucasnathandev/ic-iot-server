@@ -2,6 +2,7 @@ import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 
 import { UpdateIotBoxDto } from '../dto/update-iot-box.dto';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
+import { BoxDataEntity } from 'src/iot-box/domain/entities/box-data.entity';
 
 export class IotBoxRepositoryMemory implements IotBoxRepository {
   constructor() {
@@ -47,6 +48,14 @@ export class IotBoxRepositoryMemory implements IotBoxRepository {
     data.sensors && iotBox.updateAllSensors(data.sensors);
     data.customerId && iotBox.setBoxOwnerId(data.customerId);
     data.battery && iotBox.updateBatteryStatus(data.battery);
+    this.iotBoxes[index] = iotBox;
+  }
+
+  async updateBoxData(id: string, data: BoxDataEntity): Promise<void> {
+    const index = this.iotBoxes.findIndex((iotBox) => iotBox.id === id);
+    const iotBox = this.iotBoxes[index];
+    iotBox.registerBoxData(data);
+    this.iotBoxes[index] = iotBox;
   }
 
   async delete(id: string): Promise<void> {

@@ -1,5 +1,6 @@
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 import { IotBoxRepositoryMemory } from '../../in-memory-iot-box.repository';
+import { BoxDataEntity } from 'src/iot-box/domain/entities/box-data.entity';
 
 describe('IotBoxRepository unit tests', () => {
   let sut: IotBoxRepositoryMemory;
@@ -42,5 +43,22 @@ describe('IotBoxRepository unit tests', () => {
     await sut.delete(box.id);
     expect(await sut.getAll()).toHaveLength(1);
     expect(await sut.getAllActive()).toHaveLength(0);
+
+    const stubBoxData = new BoxDataEntity(
+      {
+        battery: 1,
+        boxId: box.id,
+        date: new Date(),
+        time: '12:00',
+        sensors: { gps: box.sensors.gps },
+      },
+      '123',
+    );
+
+    await sut.updateBoxData(box.id, stubBoxData);
+
+    const expected = stubBoxData.getBoxData();
+
+    expect((await sut.get(box.id)).getAllBoxData()[0]).toStrictEqual(expected);
   });
 });
