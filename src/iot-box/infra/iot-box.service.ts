@@ -4,6 +4,8 @@ import { UpdateIotBoxDto } from './dto/update-iot-box.dto';
 import { IotBoxApplicationService } from '../application/service/iot-box.application-service';
 import { IotBoxEntity } from '../domain/entities/iot-box.entity';
 import iotBoxDatabase from 'src/shared/infra/data/iot-box-database';
+import { CreateBoxDataDto } from './dto/create-box-data.dto';
+import uuid from 'src/shared/infra/lib/uuid';
 
 @Injectable()
 export class IotBoxService {
@@ -17,13 +19,22 @@ export class IotBoxService {
     return await this.application.createBox(new IotBoxEntity(iotBox));
   }
 
+  async createBoxData(data: CreateBoxDataDto) {
+    const id = uuid();
+    return await this.application.createBoxData(id, data);
+  }
+
   async findAll() {
     return await this.application.findAll();
   }
 
-  async getSensorData(id: string) {
+  async getBoxDataReport(id: string) {
     const box = await this.application.findBox(id);
     return box.getAllBoxData();
+  }
+
+  async findByName(name: string) {
+    return await this.application.findBoxByName(name);
   }
 
   async findOne(id: string) {
