@@ -2,8 +2,8 @@ import { ISensorFields } from 'src/iot-box/domain/entities/interfaces/sensor-fie
 import { CreateIotBoxDto } from './create-iot-box.dto';
 
 export class UpdateIotBoxDto implements Partial<CreateIotBoxDto> {
+  battery: number;
   name?: string;
   sensors?: ISensorFields;
-  battery: number;
   customerId?: string;
 }
