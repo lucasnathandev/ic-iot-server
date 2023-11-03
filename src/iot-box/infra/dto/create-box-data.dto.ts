@@ -1,5 +1,5 @@
 import { ISensorFields } from 'src/iot-box/domain/entities/interfaces/sensor-fields.interface';
-import { BoxDataProps } from './../../domain/entities/interfaces/box-data.interface';
+import { BoxDataProps } from '../../domain/entities/interfaces/box-data-props.interface';
 export class CreateBoxDataDto implements BoxDataProps {
   battery: number;
   date: Date;

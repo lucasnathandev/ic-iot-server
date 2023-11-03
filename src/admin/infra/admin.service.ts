@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+import uuid from 'src/shared/infra/lib/uuid';
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
@@ -21,12 +21,14 @@ export class AdminService {
   private readonly logger: Logger = new Logger(AdminService.name);
 
   async create(createAdminDto: CreateAdminDto) {
-    this.logger.verbose('Aqui');
+    this.logger.log('Aqui');
 
     const salt = await bcrypt.genSalt(12);
     const password = await bcrypt.hash(createAdminDto.password, salt);
     const admin = new AdminEntity({ ...createAdminDto, password }, uuid());
-    this.application.createAdmin(admin);
+    this.logger.log('Indo pra criar admin');
+
+    await this.application.createAdmin(admin);
     this.logger.log('Admin created');
   }
 
@@ -48,7 +50,9 @@ export class AdminService {
 
   async update(id: string, updateAdminDto: UpdateAdminDto) {
     const salt = await bcrypt.genSalt(12);
+    this.logger.log('Salt');
     const password = await bcrypt.hash(updateAdminDto.password, salt);
+    this.logger.log('Password');
     await this.application.updateAdmin(id, { ...updateAdminDto, password });
     this.logger.log('Admin updated');
   }

@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { ICredentials } from 'src/shared/infra/interfaces/credentials.interface';
 import { AdminService } from 'src/admin/infra/admin.service';
 import { CustomerService } from 'src/customer/infra/customer.service';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import envConfig from 'src/shared/infra/env.config';
 
@@ -13,6 +13,12 @@ describe('AuthService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        JwtModule.register({
+          secretOrPrivateKey: process.env.JWT_SECRET,
+          signOptions: {
+            expiresIn: process.env.JWT_EXP,
+          },
+        }),
         ConfigModule.forRoot({
           load: [envConfig],
         }),

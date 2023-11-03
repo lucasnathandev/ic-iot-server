@@ -16,11 +16,11 @@ import envConfig from './env.config';
       pinoHttp: {
         name: 'Pino',
         level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-        stream: pino.destination({
-          dest: 'logs/pino-logs',
-          minLength: 4096,
-          sync: false,
-        }),
+        // stream: pino.destination({
+        //   dest: 'logs/pino-logs',
+        //   minLength: 4096,
+        //   sync: false,
+        // }),
       },
     }),
     ThrottlerModule.forRoot([

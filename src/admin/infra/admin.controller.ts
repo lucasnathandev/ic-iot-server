@@ -19,9 +19,9 @@ export class AdminController {
   private readonly logger: Logger = new Logger(AdminController.name);
 
   @Post('create')
-  async create(@Body() createAdminDto: CreateAdminDto) {
+  create(@Body() createAdminDto: CreateAdminDto) {
     this.logger.log('Creating admin');
-    return await this.adminService.create(createAdminDto);
+    return this.adminService.create(createAdminDto);
   }
 
   @Get()
