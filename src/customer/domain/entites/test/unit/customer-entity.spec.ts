@@ -34,7 +34,7 @@ describe('CustomerEntity unit tests', () => {
 
     const { createdAt, updatedAt, ...customerData } = sut.getCustomerData();
     const { password: _, ...customerRest } = stubCustomerProps;
-    const expected = customerRest;
+    const expected = { id: sut.id, ...customerRest };
     expect(customerData).toStrictEqual(expected);
   });
 });
