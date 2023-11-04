@@ -65,8 +65,16 @@ describe('CustomerApplicationService integration tests', () => {
     expect(janeBoxes.length).toBe(1);
     expect(janeBoxes.includes(stubBox)).toBeTruthy();
 
+    await expect(
+      sut.acquireBox(stubCustomerJane.id, stubBox.id),
+    ).rejects.toThrow();
+
     await sut.devolveBox(stubCustomerJane.id, stubBox.id);
     janeBoxes = await sut.getCustomerBoxes(stubCustomerJane.id);
     expect(janeBoxes).toHaveLength(0);
+
+    await expect(
+      sut.devolveBox(stubCustomerJane.id, 'anotherfakeboxid'),
+    ).rejects.toThrow();
   });
 });

@@ -1,3 +1,4 @@
+import { ForbiddenException } from '@nestjs/common';
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerRepository } from 'src/customer/domain/repositories/customer.repository';
 import { BoxAcquisitionService } from 'src/customer/domain/services/box-acquisition.service';
@@ -31,6 +32,11 @@ export class CustomerApplicationService {
   async acquireBox(id: string, iotBoxId: string) {
     const customer = await this.customerRepository.get(id);
     const box = await this.iotBoxRepository.get(iotBoxId);
+
+    const isBoxWithoutOwner = typeof box.customerId !== 'string';
+    if (!isBoxWithoutOwner)
+      throw new Error('Cannot acquire iotBox already acquired');
+
     const updated = this.boxAcquisitionService.registerBoxOwnership(
       customer,
       box,
@@ -45,6 +51,11 @@ export class CustomerApplicationService {
   async devolveBox(id: string, iotBoxId: string) {
     const customer = await this.customerRepository.get(id);
     const box = await this.iotBoxRepository.get(iotBoxId);
+
+    const isBoxOwner = customer.boxes.find((iotBox) => iotBox.id === box.id);
+    if (!isBoxOwner)
+      throw new ForbiddenException('Cannot unregister box ownership');
+
     const updated = this.boxAcquisitionService.unregisterBoxOwnership(
       customer,
       box,
