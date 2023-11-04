@@ -28,7 +28,6 @@ describe('IotBoxRepository unit tests', () => {
     const foundByNameBox = await sut.findByName(box.name);
     await expect(sut.get('anyboxid')).rejects.toThrow();
     await expect(sut.findByName('anyboxname')).rejects.toThrow();
-    await expect(sut.save({} as any)).rejects.toThrow();
     await expect(sut.update('anyboxid', { battery: 0.5 })).rejects.toThrow();
     await expect(sut.delete('anyboxid')).rejects.toThrow();
     expect(foundBox).toEqual(box);

@@ -11,9 +11,11 @@ export class IotBoxGateway {
   constructor(private readonly iotBoxService: IotBoxService) {}
 
   @SubscribeMessage('box-data')
-  async boxDataHandler(@MessageBody() boxData?: CreateBoxDataDto) {
-    console.log(boxData);
-    if (boxData.boxId) return await this.iotBoxService.createBoxData(boxData);
-    return await this.iotBoxService.getBoxDataReport(boxData.boxId);
+  async boxDataHandler(
+    @MessageBody() boxData?: CreateBoxDataDto,
+    @MessageBody('id') id?: string,
+  ) {
+    if (boxData) return await this.iotBoxService.createBoxData(boxData);
+    return await this.iotBoxService.getBoxDataReport(id);
   }
 }

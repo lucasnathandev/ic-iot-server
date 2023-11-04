@@ -33,11 +33,6 @@ export class IotBoxRepositoryMemory implements IotBoxRepository {
   }
 
   async save(entity: IotBoxEntity): Promise<void> {
-    if (!(entity instanceof IotBoxEntity))
-      throw new Error(
-        'Cannot create iotBox due to entity data is not compatible',
-      );
-
     this.iotBoxes.push(entity);
   }
 

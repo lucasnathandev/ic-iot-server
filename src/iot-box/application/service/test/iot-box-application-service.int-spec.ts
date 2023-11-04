@@ -1,7 +1,7 @@
 import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
 import { IotBoxRepositoryMemory } from 'src/iot-box/infra/repositories/in-memory-iot-box.repository';
-import { IotBoxApplicationService } from '../service/iot-box.application-service';
+import { IotBoxApplicationService } from '../iot-box.application-service';
 import { BatteryStatus } from 'src/iot-box/domain/entities/interfaces/enum.battery-status';
 
 describe('IotBoxApplicationService integration tests', () => {
@@ -33,7 +33,6 @@ describe('IotBoxApplicationService integration tests', () => {
     const foundByNameBox = await sut.findBoxByName('Box');
     await expect(sut.findBox('anyboxid')).rejects.toThrow();
     await expect(sut.findBoxByName('anyboxname')).rejects.toThrow();
-    await expect(sut.createBox({} as any)).rejects.toThrow();
     await expect(sut.updateBoxSensors('anyboxid', {} as any)).rejects.toThrow();
     await expect(sut.updateBatteryStatus('anyboxid', 0.5)).rejects.toThrow();
     expect(foundBox).toEqual(box);
