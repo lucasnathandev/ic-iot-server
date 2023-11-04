@@ -16,7 +16,7 @@ export class IotBoxService {
     );
   }
   async create(iotBox: CreateIotBoxDto) {
-    return await this.application.createBox(new IotBoxEntity(iotBox));
+    return await this.application.createBox(new IotBoxEntity(iotBox, uuid()));
   }
 
   async createBoxData(data: CreateBoxDataDto) {
