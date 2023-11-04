@@ -31,6 +31,7 @@ export class CustomerApplicationService {
 
   async acquireBox(id: string, iotBoxId: string) {
     const customer = await this.customerRepository.get(id);
+
     const box = await this.iotBoxRepository.get(iotBoxId);
 
     const isBoxWithoutOwner = typeof box.customerId !== 'string';

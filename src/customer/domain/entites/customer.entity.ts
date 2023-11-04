@@ -11,6 +11,7 @@ export class CustomerEntity
   constructor(props: CustomerProps, id?: string) {
     super(props, id);
     this.passwordChanged = false;
+    if (!this.props.boxes) this.props.boxes = [];
   }
   updateName(name: string): void {
     this.props.name = name;

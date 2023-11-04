@@ -8,6 +8,7 @@ import { CustomerRepository } from '../domain/repositories/customer.repository';
 import bcrypt from 'bcrypt';
 import userDatabase from 'src/shared/infra/data/user-database';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
+import iotBoxDatabase from 'src/shared/infra/data/iot-box-database';
 
 @Injectable()
 export class CustomerService {
@@ -16,6 +17,7 @@ export class CustomerService {
   private readonly iotBoxRepository: IotBoxRepository;
   constructor() {
     this.customerRepository = userDatabase.customerRepository;
+    this.iotBoxRepository = iotBoxDatabase.iotBoxRepository;
     this.application = new CustomerApplicationService(
       this.customerRepository,
       this.iotBoxRepository,
