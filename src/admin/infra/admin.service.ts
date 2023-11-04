@@ -32,20 +32,25 @@ export class AdminService {
     this.logger.log('Admin created');
   }
 
-  async findAllActive(): Promise<AdminEntity[]> {
-    return await this.application.allActiveAdminList();
+  async findAllActive(): Promise<any> {
+    const activeAdmins = await this.application.allActiveAdminList();
+
+    return this.getDataFromAdmin(activeAdmins);
   }
 
-  async findAll(): Promise<AdminEntity[]> {
-    return await this.application.allAdminList();
+  async findAll(): Promise<any | any[]> {
+    const adminList = await this.application.allAdminList();
+    return this.getDataFromAdmin(adminList);
   }
 
   async findOne(id: string) {
-    return await this.application.findAdmin(id);
+    const admin = await this.application.findAdmin(id);
+    return this.getDataFromAdmin(admin);
   }
 
   async searchAdmin(query: { email?: string; cpf?: string }) {
-    return await this.application.searchAdmin(query);
+    const admin = await this.application.searchAdmin(query);
+    return this.getDataFromAdmin(admin);
   }
 
   async update(id: string, updateAdminDto: UpdateAdminDto) {
@@ -60,5 +65,12 @@ export class AdminService {
   async delete(id: string) {
     await this.application.deleteAdmin(id);
     this.logger.log('Admin deleted');
+  }
+
+  private getDataFromAdmin(arg: AdminEntity | AdminEntity[]) {
+    if (arg instanceof Array) {
+      return arg.map((o) => o.getAdminData());
+    }
+    return arg.getAdminData();
   }
 }

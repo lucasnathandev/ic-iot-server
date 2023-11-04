@@ -28,16 +28,12 @@ export class AdminController {
   async findAll(@Query('email') email?: string, @Query('cpf') cpf?: string) {
     if (email) return this.adminService.searchAdmin({ email });
     if (cpf) return this.adminService.searchAdmin({ cpf });
-    const adminList = await this.adminService.findAllActive();
-    const allAdminData = adminList.map((admin) => admin.getAdminData());
-    return allAdminData;
+    return await this.adminService.findAllActive();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const admin = await this.adminService.findOne(id);
-    const adminData = admin.getAdminData();
-    return adminData;
+    return await this.adminService.findOne(id);
   }
 
   @Patch('update/:id')
