@@ -25,7 +25,8 @@ export class IotBoxService {
   }
 
   async findAll() {
-    return await this.application.findAll();
+    const iotBoxList = await this.application.findAll();
+    return this.getDataFromIotBox(iotBoxList);
   }
 
   async getBoxDataReport(id: string) {
@@ -33,12 +34,22 @@ export class IotBoxService {
     return box.getAllBoxData();
   }
 
+  async getFilteredBoxDataReport(
+    id: string,
+    filter?: Partial<{ startDate: Date; endDate: Date }>,
+  ) {
+    const box = await this.application.findBox(id);
+    return box.getFilteredBoxData(filter);
+  }
+
   async findByName(name: string) {
-    return await this.application.findBoxByName(name);
+    const iotBox = await this.application.findBoxByName(name);
+    return this.getDataFromIotBox(iotBox);
   }
 
   async findOne(id: string) {
-    return await this.application.findBox(id);
+    const iotBox = await this.application.findBox(id);
+    return this.getDataFromIotBox(iotBox);
   }
 
   update(id: string, updateIotBoxDto: UpdateIotBoxDto) {
@@ -50,5 +61,10 @@ export class IotBoxService {
 
   inactivate(id: string) {
     return this.application.inactivateBox(id);
+  }
+
+  private getDataFromIotBox(arg: IotBoxEntity | IotBoxEntity[]) {
+    if (arg instanceof Array) return arg.map((o) => o.getIotBoxData());
+    return arg.getIotBoxData();
   }
 }
