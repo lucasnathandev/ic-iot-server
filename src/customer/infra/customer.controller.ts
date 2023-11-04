@@ -29,7 +29,7 @@ export class CustomerController {
     return await this.customerService.acquireBox(id, iotBoxId);
   }
 
-  @Patch('acquire/:customerId/box/:boxId')
+  @Patch('devolve/:customerId/box/:boxId')
   async devolveBox(
     @Param('customerId') id: string,
     @Param('boxId') iotBoxId: string,

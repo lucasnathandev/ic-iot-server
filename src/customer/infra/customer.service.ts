@@ -8,7 +8,6 @@ import { CustomerRepository } from '../domain/repositories/customer.repository';
 import bcrypt from 'bcrypt';
 import userDatabase from 'src/shared/infra/data/user-database';
 import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
-import { IotBoxEntity } from 'src/iot-box/domain/entities/iot-box.entity';
 
 @Injectable()
 export class CustomerService {
@@ -33,16 +32,19 @@ export class CustomerService {
     await this.application.create(customer);
   }
 
-  async findAll(): Promise<CustomerEntity[]> {
-    return await this.application.findAll();
+  async findAll(): Promise<any | any[]> {
+    const customers = await this.application.findAll();
+    return this.getDataFromCustomer(customers);
   }
 
-  async findOne(id: string): Promise<CustomerEntity> {
-    return await this.application.findOne(id);
+  async findOne(id: string): Promise<any> {
+    const customer = await this.application.findOne(id);
+    return this.getDataFromCustomer(customer);
   }
 
-  async getCustomerBoxes(id: string): Promise<IotBoxEntity[]> {
-    return await this.application.getCustomerBoxes(id);
+  async getCustomerBoxes(id: string): Promise<any[]> {
+    const customerBoxes = await this.application.getCustomerBoxes(id);
+    return customerBoxes.map((iotBox) => iotBox.getIotBoxData());
   }
 
   async acquireBox(id: string, iotBoxId: string): Promise<void> {
@@ -53,11 +55,9 @@ export class CustomerService {
     return await this.application.devolveBox(id, iotBoxId);
   }
 
-  async searchCustomer(query: {
-    email?: string;
-    cpf?: string;
-  }): Promise<CustomerEntity> {
-    return await this.application.searchCustomer(query);
+  async searchCustomer(query: { email?: string; cpf?: string }): Promise<any> {
+    const customer = await this.application.searchCustomer(query);
+    return this.getDataFromCustomer(customer);
   }
 
   async update(
@@ -77,5 +77,10 @@ export class CustomerService {
 
   async delete(id: string): Promise<void> {
     await this.application.delete(id);
+  }
+
+  private getDataFromCustomer(arg: CustomerEntity | CustomerEntity[]) {
+    if (arg instanceof Array) return arg.map((o) => o.getCustomerData());
+    return arg.getCustomerData();
   }
 }
