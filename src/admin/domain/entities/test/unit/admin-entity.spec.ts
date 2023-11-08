@@ -19,11 +19,11 @@ describe('AdminEntity unit tests', () => {
     expect(sut.isActive).toBeTruthy();
     sut.unactivateAdmin();
     expect(sut.isActive).toBeFalsy();
-    const { password: _, ...adminData } = stubProps;
+
     const { createdAt, updatedAt, ...restAdminData } = sut.getAdminData();
     expect(restAdminData).toStrictEqual({
       id: sut.id,
-      ...adminData,
+      ...stubProps,
       role: 'Admin',
     });
   });
