@@ -12,17 +12,17 @@ import pino from 'pino';
 import envConfig from './env.config';
 @Module({
   imports: [
-    LoggerModule.forRoot({
-      pinoHttp: {
-        name: 'Pino',
-        level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-        // stream: pino.destination({
-        //   dest: 'logs/pino-logs',
-        //   minLength: 4096,
-        //   sync: false,
-        // }),
-      },
-    }),
+    // LoggerModule.forRoot({
+    //   pinoHttp: {
+    //     name: 'Pino',
+    //     level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
+    //     // stream: pino.destination({
+    //     //   dest: 'logs/pino-logs',
+    //     //   minLength: 4096,
+    //     //   sync: false,
+    //     // }),
+    //   },
+    // }),
     ThrottlerModule.forRoot([
       {
         ttl: 10000,
