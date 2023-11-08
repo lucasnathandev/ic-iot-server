@@ -33,8 +33,7 @@ describe('CustomerEntity unit tests', () => {
     expect(sut.boxes.includes(box)).toBeFalsy();
 
     const { createdAt, updatedAt, ...customerData } = sut.getCustomerData();
-    const { password: _, ...customerRest } = stubCustomerProps;
-    const expected = { id: sut.id, ...customerRest };
+    const expected = { id: sut.id, ...stubCustomerProps };
     expect(customerData).toStrictEqual(expected);
   });
 });

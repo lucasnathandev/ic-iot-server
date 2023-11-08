@@ -66,10 +66,9 @@ export class CustomerEntity
   }
 
   getCustomerData() {
-    const { password, ...props } = this.props;
     return {
       id: this.id,
-      ...props,
+      ...this.props,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
