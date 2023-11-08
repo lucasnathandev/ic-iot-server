@@ -21,6 +21,8 @@ export class IotBoxService {
 
   async createBoxData(data: CreateBoxDataDto) {
     const id = uuid();
+    const time = new Date(data.date).toTimeString();
+    data.time = time;
     return await this.application.createBoxData(id, data);
   }
 
