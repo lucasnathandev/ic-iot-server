@@ -1,34 +1,91 @@
+import { ForbiddenException } from '@nestjs/common';
 import { CustomerEntity } from 'src/customer/domain/entites/customer.entity';
 import { CustomerRepository } from 'src/customer/domain/repositories/customer.repository';
 import { BoxAcquisitionService } from 'src/customer/domain/services/box-acquisition.service';
+import { UpdateCustomerDto } from 'src/customer/infra/dto/update-customer.dto';
+import { IotBoxRepository } from 'src/iot-box/domain/repositories/iot-box.repository';
+import { CPF } from 'src/shared/application/lib/CPF';
 
 export class CustomerApplicationService {
-  constructor(private customerRepository: CustomerRepository) {}
+  constructor(
+    private readonly customerRepository: CustomerRepository,
+    private readonly iotBoxRepository: IotBoxRepository,
+  ) {}
 
-  public boxAcquisitionService: BoxAcquisitionService =
+  private readonly boxAcquisitionService: BoxAcquisitionService =
     new BoxAcquisitionService();
 
   async create(customer: CustomerEntity) {
+    const isValidCPF = new CPF().validateCpf(customer.cpf);
+    if (!isValidCPF) throw new Error('Invalid CPF');
     await this.customerRepository.save(customer);
   }
 
-  async findById(id: string) {
+  async findAll(): Promise<CustomerEntity[]> {
+    return await this.customerRepository.getAll();
+  }
+
+  async findOne(id: string) {
     return await this.customerRepository.get(id);
   }
 
-  async findByEmail(name: string) {
-    return await this.customerRepository.findByEmail(name);
+  async acquireBox(id: string, iotBoxId: string) {
+    const customer = await this.customerRepository.get(id);
+
+    const box = await this.iotBoxRepository.get(iotBoxId);
+
+    const isBoxWithoutOwner = typeof box.customerId !== 'string';
+    if (!isBoxWithoutOwner)
+      throw new Error('Cannot acquire iotBox already acquired');
+
+    const updated = this.boxAcquisitionService.registerBoxOwnership(
+      customer,
+      box,
+    );
+
+    await Promise.all([
+      this.customerRepository.update(updated.customer.id, updated.customer),
+      this.iotBoxRepository.update(updated.box.id, updated.box),
+    ]);
   }
 
-  async findByCpf(cpf: string) {
-    return await this.customerRepository.findByCpf(cpf);
+  async devolveBox(id: string, iotBoxId: string) {
+    const customer = await this.customerRepository.get(id);
+    const box = await this.iotBoxRepository.get(iotBoxId);
+
+    const isBoxOwner = customer.boxes.find((iotBox) => iotBox.id === box.id);
+    if (!isBoxOwner)
+      throw new ForbiddenException('Cannot unregister box ownership');
+
+    const updated = this.boxAcquisitionService.unregisterBoxOwnership(
+      customer,
+      box,
+    );
+
+    await Promise.all([
+      this.customerRepository.update(updated.customer.id, updated.customer),
+      this.iotBoxRepository.update(updated.box.id, updated.box),
+    ]);
   }
 
-  async update(data: Partial<CustomerEntity>) {
-    return await this.customerRepository.update(data.id, data);
+  async searchCustomer(query: {
+    email?: string;
+    cpf?: string;
+  }): Promise<CustomerEntity> {
+    if (query.email) return this.customerRepository.findByEmail(query.email);
+    if (query.cpf) return this.customerRepository.findByCpf(query.cpf);
+  }
+
+  async update(id: string, data: UpdateCustomerDto) {
+    return await this.customerRepository.update(id, data);
   }
 
   async delete(id: string) {
     return await this.customerRepository.delete(id);
+  }
+
+  async getCustomerBoxes(id: string) {
+    const customer = await this.customerRepository.get(id);
+    return customer.boxes;
   }
 }

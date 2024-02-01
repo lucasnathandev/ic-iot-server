@@ -6,31 +6,34 @@ describe('CustomerEntity unit tests', () => {
   let sut: CustomerEntity;
 
   it('should run methods correctly', () => {
-    sut = new CustomerEntity({
+    const stubCustomerProps = {
       name: 'Jane Doe',
       age: 27,
       cpf: new CPF().generateRandomCpf('RJ'),
       boxes: [],
       email: 'jane@gmail.com',
-    });
+      password: 'anypassword',
+    };
+    sut = new CustomerEntity(stubCustomerProps);
 
-    const box = new IotBoxEntity(
-      {
-        name: 'Iot Box 1',
-        battery: 1,
-        customerId: sut.id,
-        sensors: { gps: { latitude: 10.02, longitude: -20.2 } },
-      },
-      'fakeboxid',
-    );
+    const stubBoxProps = {
+      name: 'Iot Box 1',
+      customerId: sut.id,
+      sensors: { gps: { latitude: 10.02, longitude: -20.2 } },
+    };
+    const box = new IotBoxEntity(stubBoxProps, 'fakeboxid');
 
     expect(sut.boxes.length).toBe(0);
+
     sut.acquireBox(box);
     expect(sut.boxes.length).toBe(1);
     expect(sut.boxes[0]).toStrictEqual(box);
 
     sut.releaseBox(box.id);
-
     expect(sut.boxes.includes(box)).toBeFalsy();
+
+    const { createdAt, updatedAt, ...customerData } = sut.getCustomerData();
+    const expected = { id: sut.id, ...stubCustomerProps };
+    expect(customerData).toStrictEqual(expected);
   });
 });

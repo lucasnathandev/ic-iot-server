@@ -6,26 +6,35 @@ import { IGPS } from './interfaces/gps.interface';
 import { ISensorFields } from './interfaces/sensor-fields.interface';
 import { BatteryStatus } from './interfaces/enum.battery-status';
 
+import { BoxDataEntity } from './box-data.entity';
+import { BoxDataProps } from './interfaces/box-data-props.interface';
+
 export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   private batteryStatus: BatteryStatus;
   private battery: number;
+  private boxData: BoxDataEntity[];
 
   private _isActive: boolean;
   constructor(props: IotBoxProps, id?: string) {
     super(props, id);
     this._isActive = true;
+    this.boxData = [];
   }
+
   inactivateBox(): void {
     this._isActive = false;
+    this.updatedAt = new Date();
   }
 
   activateBox(): void {
     this._isActive = true;
+    this.updatedAt = new Date();
   }
 
   updateBatteryStatus(battery: number): void {
     this.battery = battery;
     this.batteryStatus = this.calculateBatteryStatus();
+    this.updatedAt = new Date();
   }
 
   checkBatteryStatus(): BatteryStatus {
@@ -36,24 +45,59 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
     return this.batteryStatus;
   }
 
-  public setBoxOwnerId(id: string) {
+  setBoxOwnerId(id: string) {
     this.props.customerId = id;
+    this.updatedAt = new Date();
   }
 
-  public unbindOwnerCustomer(): void {
+  unbindOwnerCustomer(): void {
     this.props.customerId = null;
+    this.updatedAt = new Date();
   }
 
-  public updateGPSLocation(coordinates: IGPS): void {
+  updateGPSLocation(coordinates: IGPS): void {
     this.sensors.gps = coordinates;
     this.updatedAt = new Date();
   }
 
-  public updateAllSensors(data: Partial<ISensorFields>) {
+  updateAllSensors(data: Partial<ISensorFields>) {
     this.sensors = {
       ...this.sensors,
       ...data,
     };
+    this.updatedAt = new Date();
+  }
+
+  registerBoxData(data: BoxDataEntity): void {
+    this.boxData.push(data);
+  }
+  getBoxData(id: string): BoxDataProps {
+    const boxData = this.boxData.find((boxData) => boxData.id === id);
+    return boxData.getBoxData();
+  }
+  getAllBoxData(): BoxDataProps[] {
+    return this.boxData.map((boxData) => boxData.getBoxData());
+  }
+  getFilteredBoxData(filter: {
+    startDate?: Date;
+    endDate?: Date;
+  }): BoxDataProps[] {
+    const filteredBoxData = this.boxData
+      .filter((boxData) => {
+        if (filter.startDate && !filter.endDate)
+          return boxData.date >= filter.startDate;
+
+        if (!filter.startDate && filter.endDate)
+          return boxData.date <= filter.endDate;
+
+        if (filter.startDate && filter.endDate)
+          return (
+            boxData.date >= filter.startDate && boxData.date <= filter.endDate
+          );
+      })
+      .map((filtered) => filtered.getBoxData());
+
+    return filteredBoxData;
   }
 
   get isActive() {
@@ -81,8 +125,20 @@ export class IotBoxEntity extends Entity<IotBoxProps> implements IotBoxMethods {
   }
 
   private calculateBatteryStatus(): BatteryStatus {
-    if (this.battery <= BatteryStatus.Low) return BatteryStatus.Low;
-    if (this.battery <= BatteryStatus.Medium) return BatteryStatus.Medium;
-    if (this.battery <= BatteryStatus.High) return BatteryStatus.High;
+    if (this.battery <= 0.2) return BatteryStatus.Low;
+    if (this.battery <= 0.6) return BatteryStatus.Medium;
+    return BatteryStatus.High;
+  }
+
+  getIotBoxData() {
+    return {
+      id: this.id,
+      ...this.props,
+      batteryStatus: this.getBatteryStatus(),
+      battery: this.battery,
+      boxData: this.getAllBoxData(),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
 }

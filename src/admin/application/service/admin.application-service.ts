@@ -1,6 +1,7 @@
 import { AdminEntity } from 'src/admin/domain/entities/admin.entity';
 import { AdminRepository } from 'src/admin/domain/repositories/admin.repository';
-import { UpdateAdminDto } from 'src/admin/infraestructure/dto/update-admin.dto';
+import { UpdateAdminDto } from 'src/admin/infra/dto/update-admin.dto';
+import { CPF } from 'src/shared/application/lib/CPF';
 
 export class AdminApplicationService {
   constructor(private readonly adminRepository: AdminRepository) {}
@@ -26,7 +27,10 @@ export class AdminApplicationService {
   }
 
   async createAdmin(admin: AdminEntity): Promise<void> {
-    return await this.adminRepository.save(admin);
+    const isValidCpf = new CPF(admin.cpf).validateCpf();
+    if (!isValidCpf) throw new Error('Invalid CPF');
+
+    await this.adminRepository.save(admin);
   }
 
   async updateAdmin(id: string, updateAdmin: UpdateAdminDto): Promise<void> {
